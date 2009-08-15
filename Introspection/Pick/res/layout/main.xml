@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	>
+	<EditText android:id="@+id/type"
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:cursorVisible="true"
+		android:editable="true"
+		android:singleLine="true"
+		android:text="content://contacts/people"
+	/>
+	<Button
+		android:id="@+id/pick"
+		android:layout_width="fill_parent" 
+		android:layout_height="fill_parent"
+		android:text="Gimme!"
+		android:layout_weight="1"
+	/>
+</LinearLayout>

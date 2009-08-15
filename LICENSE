@@ -1,0 +1,10 @@
+Most of the files in this project are licensed under the
+"Apache License, Version 2.0", found in this directory as
+LICENSE-Apache2.txt.
+
+A few files are licensed under the "GNU General Public
+License, Version 3", found in this directory as
+LICENSE-GPLv3.txt.
+
+The headers of each Java file will indicate the license that
+file is under. All other files are licensed as Apache2.
