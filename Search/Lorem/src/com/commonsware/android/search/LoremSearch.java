@@ -40,6 +40,10 @@ public class LoremSearch extends LoremBase {
 	}
 	
 	private List<String> searchItems(String query) {
+		LoremSuggestionProvider
+			.getBridge(this)
+			.saveRecentQuery(query, null);
+		
 		List<String> results=new ArrayList<String>();
 		
 		for (String item : items) {

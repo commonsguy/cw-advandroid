@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.commonsware.android.search">
-	<application android:icon="@drawable/cw">
+	<application android:label="Lorem Ipsum"
+		android:icon="@drawable/cw">
 		<activity android:name=".LoremDemo" android:label="LoremDemo">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -20,5 +21,7 @@
 			<meta-data android:name="android.app.searchable" 
 						 android:resource="@xml/searchable" />
 		</activity>
+		<provider android:name=".LoremSuggestionProvider"
+						android:authorities="com.commonsware.android.search.LoremSuggestionProvider" />
 	</application>
 </manifest>
