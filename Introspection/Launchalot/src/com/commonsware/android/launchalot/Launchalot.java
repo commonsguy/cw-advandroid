@@ -41,11 +41,11 @@ public class Launchalot extends ListActivity {
 		
 		PackageManager pm=getPackageManager();
 		Intent main=new Intent(Intent.ACTION_MAIN, null);
-        
+				
 		main.addCategory(Intent.CATEGORY_LAUNCHER);
 
-    List<ResolveInfo> launchables=pm.queryIntentActivities(main, 0);
-    
+		List<ResolveInfo> launchables=pm.queryIntentActivities(main, 0);
+		
 		Collections.sort(launchables,
 										 new ResolveInfo.DisplayNameComparator(pm)); 
 		
@@ -61,12 +61,12 @@ public class Launchalot extends ListActivity {
 		ComponentName name=new ComponentName(activity.applicationInfo.packageName,
 																				 activity.name);
 		Intent i=new Intent(Intent.ACTION_MAIN);
-    
-    i.addCategory(Intent.CATEGORY_LAUNCHER);
-    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+		
+		i.addCategory(Intent.CATEGORY_LAUNCHER);
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
 								Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-    i.setComponent(name);
-    
+		i.setComponent(name);
+		
 		startActivity(i); 		
 	}
 	
