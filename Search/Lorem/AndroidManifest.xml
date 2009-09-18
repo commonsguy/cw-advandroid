@@ -1,0 +1,24 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="com.commonsware.android.search">
+	<application android:icon="@drawable/cw">
+		<activity android:name=".LoremDemo" android:label="LoremDemo">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+			<meta-data android:name="android.app.default_searchable"
+						 android:value=".LoremSearch" />
+		</activity>
+		<activity
+			android:name=".LoremSearch"
+			android:label="LoremSearch"
+			android:launchMode="singleTop">
+			<intent-filter>
+				<action android:name="android.intent.action.SEARCH" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+			<meta-data android:name="android.app.searchable" 
+						 android:resource="@xml/searchable" />
+		</activity>
+	</application>
+</manifest>
