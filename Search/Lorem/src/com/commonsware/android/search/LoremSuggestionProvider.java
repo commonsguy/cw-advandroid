@@ -27,7 +27,7 @@ public class LoremSuggestionProvider
 																				DATABASE_MODE_QUERIES));
 	}
 		
-  public LoremSuggestionProvider() {
+	public LoremSuggestionProvider() {
 			super();
 			
 			setupSuggestions(AUTH, DATABASE_MODE_QUERIES);
