@@ -87,8 +87,17 @@ public class AudioDemo extends Activity
 	
 	private void stop() {
 		mp.stop();
-		mp.release();
-		setup();
+		pause.setEnabled(false);
+		stop.setEnabled(false);
+		
+		try {
+			mp.prepare();
+			mp.seekTo(0);
+			play.setEnabled(true);
+		}
+		catch (Throwable t) {
+			goBlooey(t);
+		}
 	}
 	
 	private void pause() {
