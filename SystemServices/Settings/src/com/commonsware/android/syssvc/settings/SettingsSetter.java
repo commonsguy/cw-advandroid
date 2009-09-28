@@ -46,7 +46,8 @@ public class SettingsSetter extends ListActivity {
 											 Settings.ACTION_SETTINGS);
 		
 		settings.add(new BooleanSetting(Settings.System.INSTALL_NON_MARKET_APPS,
-																			"Allow non-Market app installs"));
+																			"Allow non-Market app installs",
+																			true));
 		settings.add(new BooleanSetting(Settings.System.LOCK_PATTERN_ENABLED,
 																			"Require lock pattern"));
 		settings.add(new BooleanSetting(Settings.System.LOCK_PATTERN_VISIBLE,
@@ -107,10 +108,17 @@ public class SettingsSetter extends ListActivity {
 	static class BooleanSetting {
 		String key;
 		String displayName;
+		boolean isSecure=false;
 		
 		BooleanSetting(String key, String displayName) {
+			this(key, displayName, false);
+		}
+		
+		BooleanSetting(String key, String displayName,
+									 boolean isSecure) {
 			this.key=key;
 			this.displayName=displayName;
+			this.isSecure=isSecure;
 		}
 		
 		@Override
@@ -120,7 +128,14 @@ public class SettingsSetter extends ListActivity {
 		
 		boolean isChecked(ContentResolver cr) {
 			try {
-				int value=Settings.System.getInt(cr, key);
+				int value=0;
+				
+				if (isSecure) {
+					Settings.Secure.getInt(cr, key);
+				}
+				else {
+					Settings.System.getInt(cr, key);
+				}
 				
 				return(value!=0);
 			}
@@ -132,7 +147,12 @@ public class SettingsSetter extends ListActivity {
 		}
 		
 		void setChecked(ContentResolver cr, boolean value) {
-			Settings.System.putInt(cr, key, (value ? 1 : 0));
+			if (isSecure) {
+				Settings.Secure.putInt(cr, key, (value ? 1 : 0));
+			}
+			else {
+				Settings.System.putInt(cr, key, (value ? 1 : 0));
+			}
 		}
 	}
 }
