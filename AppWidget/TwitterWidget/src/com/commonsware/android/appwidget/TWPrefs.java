@@ -22,7 +22,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.view.KeyEvent;
 import android.widget.RemoteViews;
 
 public class TWPrefs extends PreferenceActivity {
@@ -36,32 +35,28 @@ public class TWPrefs extends PreferenceActivity {
 	}
 	
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode==KeyEvent.KEYCODE_BACK) {
-			if (CONFIGURE_ACTION.equals(getIntent().getAction())) {
-				Intent intent=getIntent();
-				Bundle extras=intent.getExtras();
-	
-				if (extras!=null) {
-					int id=extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, 
-																AppWidgetManager.INVALID_APPWIDGET_ID);
-					AppWidgetManager mgr=AppWidgetManager.getInstance(this);
-					RemoteViews views=new RemoteViews(getPackageName(),
-																						R.layout.widget);
-	
-					mgr.updateAppWidget(id, views);
-	
-					Intent result=new Intent();
-	
-					result.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-														id);
-					setResult(RESULT_OK, result);
-					sendBroadcast(new Intent(this,
-																		TwitterWidget.class));
-				}
+	public void onBackPressed() {
+		if (CONFIGURE_ACTION.equals(getIntent().getAction())) {
+			Intent intent=getIntent();
+			Bundle extras=intent.getExtras();
+
+			if (extras!=null) {
+				int id=extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, 
+															AppWidgetManager.INVALID_APPWIDGET_ID);
+				AppWidgetManager mgr=AppWidgetManager.getInstance(this);
+				RemoteViews views=new RemoteViews(getPackageName(),
+																					R.layout.widget);
+
+				mgr.updateAppWidget(id, views);
+
+				Intent result=new Intent();
+
+				result.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+													id);
+				setResult(RESULT_OK, result);
+				sendBroadcast(new Intent(this,
+																	TwitterWidget.class));
 			}
 		}
-		
-		return(super.onKeyDown(keyCode, event));
 	}
 }

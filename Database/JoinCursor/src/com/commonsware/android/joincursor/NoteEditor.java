@@ -16,13 +16,9 @@
 package com.commonsware.android.joincursor;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -45,15 +41,11 @@ public class NoteEditor extends Activity {
 	}
 	
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode==KeyEvent.KEYCODE_BACK) {
-			Intent i=new Intent(getIntent());
-			
-			i.putExtra(JoinDemo.NOTE, note.getText().toString());
-			
-			setResult(0, i);
-		}
+	public void onBackPressed() {
+		Intent i=new Intent(getIntent());
 		
-		return(super.onKeyDown(keyCode, event));
+		i.putExtra(JoinDemo.NOTE, note.getText().toString());
+		
+		setResult(0, i);
 	}
 }
