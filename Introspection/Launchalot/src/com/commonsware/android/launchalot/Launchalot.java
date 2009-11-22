@@ -91,7 +91,7 @@ public class Launchalot extends ListActivity {
 		}
 		
 		private View newView(ViewGroup parent) {
-			return(getLayoutInflater().inflate(R.layout.row, null));
+			return(getLayoutInflater().inflate(R.layout.row, parent, false));
 		}
 		
 		private void bindView(int position, View row) {

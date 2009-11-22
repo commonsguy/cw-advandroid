@@ -58,7 +58,7 @@ public class SelectorDemo extends ListActivity {
 			
 			if (convertView==null) {
 				convertView=getLayoutInflater().inflate(R.layout.row,
-																								null);
+																								parent, false);
 				wrapper=new SelectorWrapper(convertView);
 				wrapper.getLabel().setTextColor(allWhite);
 				convertView.setTag(wrapper);

@@ -187,7 +187,7 @@ public class JoinDemo extends ListActivity {
 													ViewGroup parent) {
 			LayoutInflater inflater=getLayoutInflater();
 			
-			View row=inflater.inflate(R.layout.row, null);
+			View row=inflater.inflate(R.layout.row, parent, false);
 			ViewWrapper wrapper=new ViewWrapper(row);
 			
 			row.setTag(wrapper);

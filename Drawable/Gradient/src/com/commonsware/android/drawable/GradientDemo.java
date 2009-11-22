@@ -58,7 +58,7 @@ public class GradientDemo extends ListActivity {
 			
 			if (convertView==null) {
 				convertView=getLayoutInflater().inflate(R.layout.row,
-																								null);
+																								parent, false);
 				wrapper=new GradientWrapper(convertView);
 				convertView.setTag(wrapper);
 			}
