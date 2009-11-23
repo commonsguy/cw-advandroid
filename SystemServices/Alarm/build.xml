@@ -37,11 +37,11 @@
 		<!-- Custom Android task to deal with the project target, and import the proper rules.
 				 This requires ant 1.6.0 or above. -->
 		<path id="android.antlibs">
-				<pathelement path="${sdk-location}/tools/lib/anttasks.jar" />
-				<pathelement path="${sdk-location}/tools/lib/sdklib.jar" />
-				<pathelement path="${sdk-location}/tools/lib/androidprefs.jar" />
-				<pathelement path="${sdk-location}/tools/lib/apkbuilder.jar" />
-				<pathelement path="${sdk-location}/tools/lib/jarutils.jar" />
+				<pathelement path="${sdk.dir}/tools/lib/anttasks.jar" />
+				<pathelement path="${sdk.dir}/tools/lib/sdklib.jar" />
+				<pathelement path="${sdk.dir}/tools/lib/androidprefs.jar" />
+				<pathelement path="${sdk.dir}/tools/lib/apkbuilder.jar" />
+				<pathelement path="${sdk.dir}/tools/lib/jarutils.jar" />
 		</path>
 
 		<taskdef name="setup"

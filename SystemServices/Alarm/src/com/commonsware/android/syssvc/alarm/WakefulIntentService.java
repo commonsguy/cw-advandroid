@@ -25,9 +25,7 @@ import android.util.Log;
 
 public class WakefulIntentService extends IntentService {
 	public static final String LOCK_NAME_STATIC="com.commonsware.android.syssvc.AppService.Static";
-	public static final String LOCK_NAME_LOCAL="com.commonsware.android.syssvc.AppService.Local";
 	private static PowerManager.WakeLock lockStatic=null;
-	private PowerManager.WakeLock lockLocal=null;
 	
 	public static void acquireStaticLock(Context context) {
 		getLock(context).acquire();
@@ -49,27 +47,8 @@ public class WakefulIntentService extends IntentService {
 		super(name);
 	}
 	
-	public void onCreate() {
-		super.onCreate();
-		
-		PowerManager mgr=(PowerManager)getSystemService(Context.POWER_SERVICE);
-		
-		lockLocal=mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-															LOCK_NAME_LOCAL);
-		lockLocal.setReferenceCounted(true);
-	}
-	
-	@Override
-	public void onStart(Intent intent, final int startId) {
-		lockLocal.acquire();
-		
-		super.onStart(intent, startId);
-		
-		getLock(this).release();
-	}
-	
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		lockLocal.release();
+		getLock(this).release();
 	}
 }
