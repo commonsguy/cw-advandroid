@@ -20,8 +20,10 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.view.KeyEvent;
 import android.widget.RemoteViews;
 
 public class TWPrefs extends PreferenceActivity {
@@ -32,6 +34,16 @@ public class TWPrefs extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 		
 		addPreferencesFromResource(R.xml.preferences);
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode==KeyEvent.KEYCODE_BACK &&
+				Integer.parseInt(Build.VERSION.SDK)<5) {
+			onBackPressed();
+		}
+		
+		return(super.onKeyDown(keyCode, event));
 	}
 	
 	@Override
@@ -58,5 +70,7 @@ public class TWPrefs extends PreferenceActivity {
 																	TwitterWidget.class));
 			}
 		}
-	}
+		
+		super.onBackPressed();
+	} 
 }

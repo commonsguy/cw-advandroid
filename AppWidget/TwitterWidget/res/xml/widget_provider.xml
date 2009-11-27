@@ -3,4 +3,5 @@
 	android:minHeight="72dip"
 	android:updatePeriodMillis="900000"
 	android:configure="com.commonsware.android.appwidget.TWPrefs"
+	android:initialLayout="@layout/widget"
 />
