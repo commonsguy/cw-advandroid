@@ -1,5 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 		package="com.commonsware.android.audio">
+ <uses-sdk
+			android:minSdkVersion="3"
+			android:maxSdkVersion="5"
+	/> 
+	<supports-screens
+		android:largeScreens="false"
+		android:normalScreens="true"
+		android:smallScreens="false"
+	/>
 		<application>
 				<activity android:name=".AudioDemo" android:label="AudioDemo">
 						<intent-filter>

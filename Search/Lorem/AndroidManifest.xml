@@ -1,5 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.commonsware.android.search">
+ <uses-sdk
+			android:minSdkVersion="3"
+			android:maxSdkVersion="5"
+	/> 
+	<supports-screens
+		android:largeScreens="false"
+		android:normalScreens="true"
+		android:smallScreens="false"
+	/>
 	<application android:label="Lorem Ipsum"
 		android:icon="@drawable/cw">
 		<activity android:name=".LoremDemo" android:label="LoremDemo">

@@ -3,6 +3,15 @@
 			package="com.commonsware.android.syssvc.alarm"
 			android:versionCode="1"
 			android:versionName="1.0">
+ <uses-sdk
+			android:minSdkVersion="3"
+			android:maxSdkVersion="5"
+	/> 
+	<supports-screens
+		android:largeScreens="false"
+		android:normalScreens="true"
+		android:smallScreens="false"
+	/>
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>

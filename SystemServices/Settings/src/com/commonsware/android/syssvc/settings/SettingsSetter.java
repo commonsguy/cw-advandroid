@@ -147,11 +147,16 @@ public class SettingsSetter extends ListActivity {
 		}
 		
 		void setChecked(ContentResolver cr, boolean value) {
-			if (isSecure) {
-				Settings.Secure.putInt(cr, key, (value ? 1 : 0));
+			try {
+				if (isSecure) {
+					Settings.Secure.putInt(cr, key, (value ? 1 : 0));
+				}
+				else {
+					Settings.System.putInt(cr, key, (value ? 1 : 0));
+				}
 			}
-			else {
-				Settings.System.putInt(cr, key, (value ? 1 : 0));
+			catch (Throwable t) {
+				Log.e("SettingsSetter", "Exception in setChecked()", t);
 			}
 		}
 	}
