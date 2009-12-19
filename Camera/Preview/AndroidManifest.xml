@@ -5,13 +5,14 @@
 			android:versionName="1.0">
  <uses-sdk
 			android:minSdkVersion="3"
-			android:maxSdkVersion="5"
+			android:targetSdkVersion="6"
 	/> 
 	<supports-screens
 		android:largeScreens="false"
 		android:normalScreens="true"
 		android:smallScreens="false"
 	/>
+	<uses-feature android:name="android.hardware.camera" />
 	<uses-permission android:name="android.permission.CAMERA" />
 		<application android:label="@string/app_name">
 				<activity android:name=".PreviewDemo"

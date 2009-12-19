@@ -2,7 +2,7 @@
 		package="com.commonsware.android.audio">
  <uses-sdk
 			android:minSdkVersion="3"
-			android:maxSdkVersion="5"
+			android:targetSdkVersion="6"
 	/> 
 	<supports-screens
 		android:largeScreens="false"
