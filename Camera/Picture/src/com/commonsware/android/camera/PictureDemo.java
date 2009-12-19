@@ -57,7 +57,6 @@ public class PictureDemo extends Activity {
 	}
 	
 	private void takePicture() {
-		camera.stopPreview();
 		camera.takePicture(null, null, photoCallback);
 	}
 	
@@ -84,6 +83,7 @@ public class PictureDemo extends Activity {
 			
 			parameters.setPreviewSize(width, height);
 			parameters.setPictureFormat(PixelFormat.JPEG);
+			
 			camera.setParameters(parameters);
 			camera.startPreview();
 		}
