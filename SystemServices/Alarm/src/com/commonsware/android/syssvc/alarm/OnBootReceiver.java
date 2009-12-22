@@ -33,7 +33,7 @@ public class OnBootReceiver extends BroadcastReceiver {
 																							i, 0);
 		
 		mgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-											SystemClock.elapsedRealtime(),
+											SystemClock.elapsedRealtime()+60000,
 											PERIOD,
 											pi);
 	}

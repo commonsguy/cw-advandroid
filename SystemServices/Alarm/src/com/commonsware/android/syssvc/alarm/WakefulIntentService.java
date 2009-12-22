@@ -23,7 +23,9 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 
-public class WakefulIntentService extends IntentService {
+abstract public class WakefulIntentService extends IntentService {
+	abstract void doWakefulWork(Intent intent);
+	
 	public static final String LOCK_NAME_STATIC="com.commonsware.android.syssvc.AppService.Static";
 	private static PowerManager.WakeLock lockStatic=null;
 	
@@ -48,7 +50,8 @@ public class WakefulIntentService extends IntentService {
 	}
 	
 	@Override
-	protected void onHandleIntent(Intent intent) {
+	final protected void onHandleIntent(Intent intent) {
+		doWakefulWork(intent);
 		getLock(this).release();
 	}
 }

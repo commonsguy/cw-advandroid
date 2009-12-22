@@ -29,12 +29,13 @@ public class AppService extends WakefulIntentService {
 	}
 
 	@Override
-	protected void onHandleIntent(Intent intent) {
+	protected void doWakefulWork(Intent intent) {
 		File log=new File(Environment.getExternalStorageDirectory(),
 											"AlarmLog.txt");
 		
 		try {
-			BufferedWriter out=new BufferedWriter(new FileWriter(log.getAbsolutePath(), true));
+			BufferedWriter out=new BufferedWriter(new FileWriter(log.getAbsolutePath(),
+																													 log.exists()));
 			
 			out.write(new Date().toString());
 			out.write("\n");
@@ -43,7 +44,5 @@ public class AppService extends WakefulIntentService {
 		catch (IOException e) {
 			Log.e("AppService", "Exception appending to log file", e);
 		}
-		
-		super.onHandleIntent(intent);
 	}
 }

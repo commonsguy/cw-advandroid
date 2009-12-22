@@ -131,10 +131,10 @@ public class SettingsSetter extends ListActivity {
 				int value=0;
 				
 				if (isSecure) {
-					Settings.Secure.getInt(cr, key);
+					value=Settings.Secure.getInt(cr, key);
 				}
 				else {
-					Settings.System.getInt(cr, key);
+					value=Settings.System.getInt(cr, key);
 				}
 				
 				return(value!=0);
