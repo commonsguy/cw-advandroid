@@ -237,17 +237,17 @@ public class NooYawk extends MapActivity {
 				lp.setMargins(0, 0, 0, 60);
 			}
 			
-			if (isVisible) {
-				hide();
-			}
+			hide();
 			
 			((ViewGroup)map.getParent()).addView(popup, lp);
 			isVisible=true;
 		}
 		
 		void hide() {
-			isVisible=false;
-			((ViewGroup)popup.getParent()).removeView(popup);
+			if (isVisible) {
+				isVisible=false;
+				((ViewGroup)popup.getParent()).removeView(popup);
+			}
 		}
 	}
 	
