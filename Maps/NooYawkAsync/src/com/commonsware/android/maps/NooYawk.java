@@ -296,7 +296,7 @@ public class NooYawk extends MapActivity {
 		
 		@Override
 		public Void doInBackground(Void... unused) {
-			SystemClock.sleep(5000);
+			SystemClock.sleep(5000);						// simulated work
 			
 			sites=new SitesOverlay();
 			
