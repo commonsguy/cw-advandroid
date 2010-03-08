@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+		<string name="app_name">TS Prefs</string>
+		<string name="sender_name">TwitterSender</string>
+		<string name="test_name">TS Test</string>
+		<string name="share_subject">TwitterSender sent this!</string>
+		<string name="share_title">Share a message via:</string>
+</resources>
