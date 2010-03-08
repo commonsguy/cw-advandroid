@@ -198,9 +198,9 @@ public class NooYawk extends MapActivity {
 		}
 		
 		private Drawable getMarker(int resource) {
-	    Drawable marker=getResources().getDrawable(resource);
+			Drawable marker=getResources().getDrawable(resource);
 			
-		  marker.setBounds(0, 0, marker.getIntrinsicWidth(),
+			marker.setBounds(0, 0, marker.getIntrinsicWidth(),
 												marker.getIntrinsicHeight());
 			boundCenter(marker);
 
@@ -258,7 +258,7 @@ public class NooYawk extends MapActivity {
 	}
 	
 	class CustomItem extends OverlayItem {
-    Drawable marker=null;
+		Drawable marker=null;
 		boolean isHeart=false;
 		Drawable heart=null;
 		
