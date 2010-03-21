@@ -20,7 +20,8 @@
 						</intent-filter>
 				</activity>
 				<activity android:name="TwitterSender"
-									android:label="@string/sender_name">
+									android:label="@string/sender_name"
+                  android:theme="@android:style/Theme.NoDisplay">
 						<intent-filter android:label="@string/sender_name">
 								<action android:name="android.intent.action.SEND" />
 								<data android:mimeType="text/plain" />
