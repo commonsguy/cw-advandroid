@@ -1,6 +1,6 @@
 /***
  	Copyright (c) 2008-2010 CommonsWare, LLC
-	portions Copyright (c) 2008 Jeffrey Sharkey
+	portions Copyright (c) 2008-10 Jeffrey Sharkey
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
