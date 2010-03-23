@@ -1,4 +1,4 @@
-/* Copyright (c) 2008-09 -- CommonsWare, LLC
+/* Copyright (c) 2008-10 -- CommonsWare, LLC
 
 	 Licensed under the Apache License, Version 2.0 (the "License");
 	 you may not use this file except in compliance with the License.
@@ -20,13 +20,14 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.SeekBar;
 
 public class Volumizer extends Activity {
-	Meter alarm=null;
-	Meter music=null;
-	Meter ring=null;
-	Meter system=null;
-	Meter voice=null;
+	SeekBar alarm=null;
+	SeekBar music=null;
+	SeekBar ring=null;
+	SeekBar system=null;
+	SeekBar voice=null;
 	AudioManager mgr=null;
 	
 	@Override
@@ -36,40 +37,36 @@ public class Volumizer extends Activity {
 		
 		mgr=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
 		
-		alarm=(Meter)findViewById(R.id.alarm);
-		music=(Meter)findViewById(R.id.music);
-		ring=(Meter)findViewById(R.id.ring);
-		system=(Meter)findViewById(R.id.system);
-		voice=(Meter)findViewById(R.id.voice);
+		alarm=(SeekBar)findViewById(R.id.alarm);
+		music=(SeekBar)findViewById(R.id.music);
+		ring=(SeekBar)findViewById(R.id.ring);
+		system=(SeekBar)findViewById(R.id.system);
+		voice=(SeekBar)findViewById(R.id.voice);
 		
-		alarm.setTag(AudioManager.STREAM_ALARM);
-		music.setTag(AudioManager.STREAM_MUSIC);
-		ring.setTag(AudioManager.STREAM_RING);
-		system.setTag(AudioManager.STREAM_SYSTEM);
-		voice.setTag(AudioManager.STREAM_VOICE_CALL);
-		
-		initMeter(alarm);
-		initMeter(music);
-		initMeter(ring);
-		initMeter(system);
-		initMeter(voice);
+		initBar(alarm, AudioManager.STREAM_ALARM);
+		initBar(music, AudioManager.STREAM_MUSIC);
+		initBar(ring, AudioManager.STREAM_RING);
+		initBar(system, AudioManager.STREAM_SYSTEM);
+		initBar(voice, AudioManager.STREAM_VOICE_CALL);
 	}
 	
-	private void initMeter(Meter meter) {
-		final int stream=((Integer)meter.getTag()).intValue();
+	private void initBar(SeekBar bar, final int stream) {
+		bar.setMax(mgr.getStreamMaxVolume(stream));
+		bar.setProgress(mgr.getStreamVolume(stream));
 		
-		meter.setMax(mgr.getStreamMaxVolume(stream));
-		meter.setProgress(mgr.getStreamVolume(stream));
-		meter.setOnIncrListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				mgr.adjustStreamVolume(stream,
-																AudioManager.ADJUST_RAISE, 0);
+		bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			public void onProgressChanged(SeekBar bar, int progress,
+																		boolean fromUser) {
+				mgr.setStreamVolume(stream,	progress,
+														AudioManager.FLAG_PLAY_SOUND);
 			}
-		});
-		meter.setOnDecrListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				mgr.adjustStreamVolume(stream,
-																AudioManager.ADJUST_LOWER, 0);
+			
+			public void onStartTrackingTouch(SeekBar bar) {
+				// no-op
+			}
+			
+			public void onStopTrackingTouch(SeekBar bar) {
+				// no-op
 			}
 		});
 	}

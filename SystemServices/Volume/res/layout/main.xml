@@ -9,55 +9,45 @@
 		android:paddingTop="10px"
 		android:paddingBottom="20px">
 		<TextView android:text="Alarm:" />
-		<com.commonsware.android.syssvc.volume.Meter
+		<SeekBar
 			android:id="@+id/alarm"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			app:incr="1"
-			app:decr="1"
 		/>																			
 	</TableRow>
 	<TableRow
 		android:paddingBottom="20px">
 		<TextView android:text="Music:" />
-		<com.commonsware.android.syssvc.volume.Meter
+		<SeekBar
 			android:id="@+id/music"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			app:incr="1"
-			app:decr="1"
 		/>																			
 	</TableRow>
 	<TableRow
 		android:paddingBottom="20px">
 		<TextView android:text="Ring:" />
-		<com.commonsware.android.syssvc.volume.Meter
+		<SeekBar
 			android:id="@+id/ring"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			app:incr="1"
-			app:decr="1"
 		/>																			
 	</TableRow>
 	<TableRow
 		android:paddingBottom="20px">
 		<TextView android:text="System:" />
-		<com.commonsware.android.syssvc.volume.Meter
+		<SeekBar
 			android:id="@+id/system"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			app:incr="1"
-			app:decr="1"
 		/>																			
 	</TableRow>
 	<TableRow>
 		<TextView android:text="Voice:" />
-		<com.commonsware.android.syssvc.volume.Meter
+		<SeekBar
 			android:id="@+id/voice"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			app:incr="1"
-			app:decr="1"
 		/>																			
 	</TableRow>
 </TableLayout>
