@@ -1,5 +1,5 @@
 /***
-	Copyright (c) 2008 CommonsWare, LLC
+	Copyright (c) 2008-10 CommonsWare, LLC
 	
 	Licensed under the Apache License, Version 2.0 (the "License"); you may
 	not use this file except in compliance with the License. You may obtain
@@ -17,6 +17,7 @@ package com.commonsware.android.video;
 import android.app.Activity;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
@@ -33,7 +34,8 @@ public class VideoDemo extends Activity {
 		getWindow().setFormat(PixelFormat.TRANSLUCENT);
 		setContentView(R.layout.main);
 	
-		File clip=new File("/sdcard/test.mp4");
+		File clip=new File(Environment.getExternalStorageDirectory(),
+											 "test.mp4");
 		
 		if (clip.exists()) {
 			video=(VideoView)findViewById(R.id.video);
