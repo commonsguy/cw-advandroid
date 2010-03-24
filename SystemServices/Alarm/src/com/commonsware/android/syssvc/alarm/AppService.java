@@ -34,8 +34,9 @@ public class AppService extends WakefulIntentService {
 											"AlarmLog.txt");
 		
 		try {
-			BufferedWriter out=new BufferedWriter(new FileWriter(log.getAbsolutePath(),
-																													 log.exists()));
+			BufferedWriter out=new BufferedWriter(
+														new FileWriter(log.getAbsolutePath(),
+																						log.exists()));
 			
 			out.write(new Date().toString());
 			out.write("\n");
