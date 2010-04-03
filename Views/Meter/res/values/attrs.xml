@@ -1,7 +1,0 @@
-<resources>
-	<declare-styleable name="Meter">
-		<attr name="max" format="integer" />
-		<attr name="incr" format="integer" />
-		<attr name="decr" format="integer" />
-	</declare-styleable>
-</resources>
