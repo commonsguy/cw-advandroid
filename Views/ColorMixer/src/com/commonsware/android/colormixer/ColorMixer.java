@@ -88,6 +88,7 @@ public class ColorMixer extends RelativeLayout {
 		red.setProgress(Color.red(color));
 		green.setProgress(Color.green(color));
 		blue.setProgress(Color.blue(color));
+		swatch.setBackgroundColor(color);
 	}
 	
 	private SeekBar.OnSeekBarChangeListener onMix=new SeekBar.OnSeekBarChangeListener() {
