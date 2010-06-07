@@ -39,7 +39,6 @@ abstract public class LoremBase extends ListActivity {
 	
 	private static final int LOCAL_SEARCH_ID = Menu.FIRST+1;
 	private static final int GLOBAL_SEARCH_ID = Menu.FIRST+2;
-	private static final int CLOSE_ID = Menu.FIRST+3;
 	TextView selection;
 	ArrayList<String> items=new ArrayList<String>();
 	
@@ -97,9 +96,6 @@ abstract public class LoremBase extends ListActivity {
 		menu.add(Menu.NONE, GLOBAL_SEARCH_ID, Menu.NONE, "Global Search")
 						.setIcon(R.drawable.search)
 						.setAlphabeticShortcut(SearchManager.MENU_KEY);
-		menu.add(Menu.NONE, CLOSE_ID, Menu.NONE, "Close")
-						.setIcon(R.drawable.eject)
-						.setAlphabeticShortcut('c');
 	
 		return(super.onCreateOptionsMenu(menu));
 	}
@@ -113,10 +109,6 @@ abstract public class LoremBase extends ListActivity {
 			
 			case GLOBAL_SEARCH_ID:
 				startSearch(null, false, null, true); 
-				return(true);
-			
-			case CLOSE_ID:
-				finish();
 				return(true);
 		}
 
