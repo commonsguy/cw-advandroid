@@ -36,8 +36,8 @@ public class NinePatchDemo extends Activity {
 		horizontal=(SeekBar)findViewById(R.id.horizontal);	
 		vertical=(SeekBar)findViewById(R.id.vertical);
 		
-		horizontal.setMax(272);	// 320 less 48 starting size
-		vertical.setMax(272);		// keep it square @ max
+		horizontal.setMax(176);	// 240 less 64 starting size
+		vertical.setMax(176);		// keep it square @ max
 		
 		horizontal.setOnSeekBarChangeListener(h);
 		vertical.setOnSeekBarChangeListener(v);
@@ -48,7 +48,7 @@ public class NinePatchDemo extends Activity {
 																	int progress,
 																	boolean fromTouch) {
 			ViewGroup.LayoutParams old=thingToResize.getLayoutParams();
-			ViewGroup.LayoutParams current=new LinearLayout.LayoutParams(48+progress,
+			ViewGroup.LayoutParams current=new LinearLayout.LayoutParams(64+progress,
 																																	 old.height);
 			
 			thingToResize.setLayoutParams(current);
@@ -69,7 +69,7 @@ public class NinePatchDemo extends Activity {
 																	boolean fromTouch) {
 			ViewGroup.LayoutParams old=thingToResize.getLayoutParams();
 			ViewGroup.LayoutParams current=new LinearLayout.LayoutParams(old.width,
-																																	 48+progress);
+																																	 64+progress);
 			
 			thingToResize.setLayoutParams(current);
 		}
