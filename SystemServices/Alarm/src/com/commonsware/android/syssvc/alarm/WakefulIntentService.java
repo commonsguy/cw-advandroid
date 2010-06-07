@@ -51,7 +51,11 @@ abstract public class WakefulIntentService extends IntentService {
 	
 	@Override
 	final protected void onHandleIntent(Intent intent) {
-		doWakefulWork(intent);
-		getLock(this).release();
+		try {
+			doWakefulWork(intent);
+		}
+		finally {
+			getLock(this).release();
+		}
 	}
 }
