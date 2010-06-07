@@ -49,9 +49,11 @@ public class SettingsSetter extends ListActivity {
 																			"Allow non-Market app installs",
 																			true));
 		settings.add(new BooleanSetting(Settings.System.LOCK_PATTERN_ENABLED,
-																			"Require lock pattern"));
+																			"Require lock pattern",
+																			true));
 		settings.add(new BooleanSetting(Settings.System.LOCK_PATTERN_VISIBLE,
-																			"Lock pattern visible"));
+																			"Lock pattern visible",
+																			true));
 	}
 	
 	@Override
