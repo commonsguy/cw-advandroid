@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:background="#FF000088"
+		>
+	<ImageButton android:id="@+id/refresh"
+		android:layout_centerVertical="true"
+		android:layout_alignParentLeft="true"
+		android:src="@drawable/refresh"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+	/>
+	<ImageButton android:id="@+id/configure"
+		android:layout_centerVertical="true"
+		android:layout_alignParentRight="true"
+		android:src="@drawable/configure"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+	/>
+	<TextView android:id="@+id/friend"
+		android:layout_alignParentTop="true"
+		android:layout_toLeftOf="@id/configure"
+		android:layout_toRightOf="@id/refresh"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:gravity="left"
+		android:textStyle="bold"
+		android:singleLine="true"
+		android:ellipsize="end"
+	/>
+	<TextView android:id="@+id/status"
+		android:layout_below="@id/friend"
+		android:layout_toLeftOf="@id/configure"
+		android:layout_toRightOf="@id/refresh"
+		android:layout_width="wrap_content"
+		android:layout_height="fill_parent"
+		android:gravity="top"
+		android:singleLine="false"
+		android:lines="4"
+	/>
+</RelativeLayout>

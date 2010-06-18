@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+		<string-array name="services">
+				<item>Twitter (basic auth)</item>
+				<item>identi.ca</item>
+		</string-array>
+		<string-array name="urls">
+				<item></item>
+				<item>"https://identi.ca/api"</item>
+		</string-array>
+</resources>
