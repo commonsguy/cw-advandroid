@@ -1,0 +1,23 @@
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="User Account">
+		<ListPreference
+			android:key="service_url"
+			android:title="Microblog Service"
+			android:summary="Choose which service you want to use"
+			android:entries="@array/services"
+			android:entryValues="@array/urls"
+			android:dialogTitle="Choose a microblogging service" />
+		<EditTextPreference
+			android:key="user"
+			android:title="User Name"
+			android:summary="Your user ID on the service"
+			android:dialogTitle="Enter your user name" />
+		<EditTextPreference
+			android:key="password"
+			android:title="Password"
+			android:summary="Your password on the service"
+			android:password="true"
+			android:dialogTitle="Enter your password" />
+	</PreferenceCategory>
+</PreferenceScreen>
