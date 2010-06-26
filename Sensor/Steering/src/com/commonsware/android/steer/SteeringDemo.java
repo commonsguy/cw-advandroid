@@ -12,7 +12,7 @@
 	limitations under the License.
 */
 
-package com.commonsware.android.sensor;
+package com.commonsware.android.steer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,9 +27,13 @@ import android.widget.TextView;
 
 public class SteeringDemo extends Activity {
 	private SensorManager mgr=null;
-	private float prevOrientation=0.0f;
+	private float prevEast=0.0f;
 	private TextView transcript=null;
 	private ScrollView scroll=null;
+	private float[] lastMagFields=null;
+	private float[] lastAccels=null;
+	private float[] rotationMatrix=new float[9];
+	private float[] orientation=new float[3];
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,15 +44,20 @@ public class SteeringDemo extends Activity {
 		scroll=(ScrollView)findViewById(R.id.scroll);
 
 		mgr=(SensorManager)getSystemService(Context.SENSOR_SERVICE);
-		mgr.registerListener(listener,
-													mgr.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+		mgr.registerListener(magListener,
+													mgr.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
+													SensorManager.SENSOR_DELAY_UI);
+		mgr.registerListener(accListener,
+													mgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 													SensorManager.SENSOR_DELAY_UI);
 	}
 	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		mgr.unregisterListener(listener);
+		
+		mgr.unregisterListener(accListener);
+		mgr.unregisterListener(magListener);
 	}
 	
 	private void steerLeft(float position, float delta) {
@@ -73,23 +82,65 @@ public class SteeringDemo extends Activity {
 		scroll.fullScroll(View.FOCUS_DOWN);
 	}
 	
+	private void computeOrientation() {
+		if (SensorManager.getRotationMatrix(rotationMatrix, null,
+																				lastMagFields, lastAccels)) {
+			SensorManager.getOrientation(rotationMatrix, orientation);
+			
+			float east=orientation[1]*57.2957795f;
+			
+			if (prevEast!=east) {
+				if (prevEast>east) {
+					steerLeft(east, east-prevEast);
+				}
+				else {
+					steerRight(east, prevEast-east);
+				}
+				
+				prevEast=east;
+			}
+		}
+	}
+	
+	private SensorEventListener magListener=new SensorEventListener() {
+		public void onSensorChanged(SensorEvent e) {
+			if (lastMagFields==null) {
+				lastMagFields=new float[3];
+			}
+			
+			System.arraycopy(e.values, 0, lastMagFields, 0, 3);
+			
+			if (lastAccels!=null) {
+				computeOrientation();
+			}
+		}
+		
+		public void onAccuracyChanged(Sensor sensor, int accuracy) {
+			// unused
+		}
+	};
+	
+	private SensorEventListener accListener=new SensorEventListener() {
+		public void onSensorChanged(SensorEvent e) {
+			if (lastAccels==null) {
+				lastAccels=new float[3];
+			}
+			
+			System.arraycopy(e.values, 0, lastAccels, 0, 3);
+			
+			if (lastMagFields!=null) {
+				computeOrientation();
+			}
+		}
+		
+		public void onAccuracyChanged(Sensor sensor, int accuracy) {
+			// unused
+		}
+	};
+	
 	private SensorEventListener listener=new SensorEventListener() {
 		public void onSensorChanged(SensorEvent e) {
 			if (e.sensor.getType()==Sensor.TYPE_ORIENTATION) {
-				float orientation=e.values[1];
-				
-				if (prevOrientation!=orientation) {
-					if (prevOrientation<orientation) {
-						steerLeft(orientation,
-											orientation-prevOrientation);
-					}
-					else {
-						steerRight(orientation,
-												prevOrientation-orientation);
-					}
-					
-					prevOrientation=e.values[1];
-				}
 			}
 		}
 		

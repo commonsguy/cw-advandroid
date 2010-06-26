@@ -27,6 +27,10 @@ import android.widget.TextView;
 public class CompassDemo extends Activity {
 	private SensorManager mgr=null;
 	private TextView degrees=null;
+	private float[] lastMagFields=null;
+	private float[] lastAccels=null;
+	private float[] rotationMatrix=new float[9];
+	private float[] orientation=new float[3];
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -36,21 +40,65 @@ public class CompassDemo extends Activity {
 		degrees=(TextView)findViewById(R.id.degrees);
 
 		mgr=(SensorManager)getSystemService(Context.SENSOR_SERVICE);
-		mgr.registerListener(listener,
-													mgr.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+		mgr.registerListener(magListener,
+													mgr.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
+													SensorManager.SENSOR_DELAY_UI);
+		mgr.registerListener(accListener,
+													mgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 													SensorManager.SENSOR_DELAY_UI);
 	}
 	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		mgr.unregisterListener(listener);
+		
+		mgr.unregisterListener(accListener);
+		mgr.unregisterListener(magListener);
 	}
 	
-	private SensorEventListener listener=new SensorEventListener() {
+	private void computeOrientation() {
+		if (SensorManager.getRotationMatrix(rotationMatrix, null,
+																				lastMagFields, lastAccels)) {
+			SensorManager.getOrientation(rotationMatrix, orientation);
+			
+			float north=orientation[0]*57.2957795f;
+			
+			if (north<0) {
+				north=360.0f+north;
+			}
+			
+			degrees.setText(String.valueOf(north));
+		}
+	}
+	
+	private SensorEventListener magListener=new SensorEventListener() {
 		public void onSensorChanged(SensorEvent e) {
-			if (e.sensor.getType()==Sensor.TYPE_ORIENTATION) {
-				degrees.setText(String.valueOf(e.values[0]));
+			if (lastMagFields==null) {
+				lastMagFields=new float[3];
+			}
+			
+			System.arraycopy(e.values, 0, lastMagFields, 0, 3);
+			
+			if (lastAccels!=null) {
+				computeOrientation();
+			}
+		}
+		
+		public void onAccuracyChanged(Sensor sensor, int accuracy) {
+			// unused
+		}
+	};
+	
+	private SensorEventListener accListener=new SensorEventListener() {
+		public void onSensorChanged(SensorEvent e) {
+			if (lastAccels==null) {
+				lastAccels=new float[3];
+			}
+			
+			System.arraycopy(e.values, 0, lastAccels, 0, 3);
+			
+			if (lastMagFields!=null) {
+				computeOrientation();
 			}
 		}
 		

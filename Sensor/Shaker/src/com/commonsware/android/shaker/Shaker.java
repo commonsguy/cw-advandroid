@@ -12,7 +12,7 @@
 	limitations under the License.
 */
 
-package com.commonsware.android.sensor;
+package com.commonsware.android.shaker;
 
 import android.content.Context;
 import android.hardware.Sensor;
