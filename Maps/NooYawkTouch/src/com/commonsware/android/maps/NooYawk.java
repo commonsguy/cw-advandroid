@@ -183,7 +183,7 @@ public class NooYawk extends MapActivity {
 						items.remove(inDrag);
 						populate();
 						
-						setDragImagePosition(x, y);
+						setDragImagePosition(p.x, p.y);
 						dragImage.setVisibility(View.VISIBLE);
 						
 						break;
