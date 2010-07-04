@@ -112,6 +112,8 @@ public class NooYawk extends MapActivity {
 		private ImageView dragImage=null;
 		private int xDragImageOffset=0;
 		private int yDragImageOffset=0;
+		private int xDragTouchOffset=0;
+		private int yDragTouchOffset=0;
 		
 		public SitesOverlay(Drawable marker) {
 			super(marker);
@@ -182,9 +184,15 @@ public class NooYawk extends MapActivity {
 						inDrag=item;
 						items.remove(inDrag);
 						populate();
+
+						xDragTouchOffset=0;
+						yDragTouchOffset=0;
 						
 						setDragImagePosition(p.x, p.y);
 						dragImage.setVisibility(View.VISIBLE);
+
+						xDragTouchOffset=x-p.x;
+						yDragTouchOffset=y-p.y;
 						
 						break;
 					}
@@ -197,7 +205,8 @@ public class NooYawk extends MapActivity {
 			else if (action==MotionEvent.ACTION_UP && inDrag!=null) {
 				dragImage.setVisibility(View.GONE);
 				
-				GeoPoint pt=map.getProjection().fromPixels(x, y);
+				GeoPoint pt=map.getProjection().fromPixels(x-xDragTouchOffset,
+																									 y-yDragTouchOffset);
         OverlayItem toDrop=new OverlayItem(pt, inDrag.getTitle(),
 																					 inDrag.getSnippet());
 				
@@ -212,9 +221,11 @@ public class NooYawk extends MapActivity {
 		}
 		
 		private void setDragImagePosition(int x, int y) {
-			RelativeLayout.LayoutParams lp=(RelativeLayout.LayoutParams)dragImage.getLayoutParams();
+			RelativeLayout.LayoutParams lp=
+				(RelativeLayout.LayoutParams)dragImage.getLayoutParams();
 						
-			lp.setMargins(x-xDragImageOffset, y-yDragImageOffset, 0, 0);
+			lp.setMargins(x-xDragImageOffset-xDragTouchOffset,
+											y-yDragImageOffset-yDragTouchOffset, 0, 0);
 			dragImage.setLayoutParams(lp);
 		}
 	}
