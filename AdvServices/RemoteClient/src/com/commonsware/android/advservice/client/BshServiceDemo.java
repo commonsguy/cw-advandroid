@@ -68,7 +68,7 @@ public class BshServiceDemo extends Activity {
 			}
 		});
 		
-		bindService(new Intent(IScript.class.getName()),
+		bindService(new Intent("com.commonsware.android.advservice.IScript"),
 								svcConn, Context.BIND_AUTO_CREATE);
 	}
 	
