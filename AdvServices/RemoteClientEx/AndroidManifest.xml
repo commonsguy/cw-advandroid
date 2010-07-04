@@ -8,7 +8,7 @@
 			android:targetSdkVersion="6"
 	/> 
 	<supports-screens
-		android:largeScreens="false"
+		android:largeScreens="true"
 		android:normalScreens="true"
 		android:smallScreens="false"
 	/>
