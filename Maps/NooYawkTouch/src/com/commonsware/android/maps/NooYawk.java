@@ -168,12 +168,6 @@ public class NooYawk extends MapActivity {
 			boolean result=false;
 			
 			if (action==MotionEvent.ACTION_DOWN) {
-				if (inDrag!=null) {						// probably not needed
-					items.add(inDrag);
-					populate();
-					inDrag=null;
-				}
-				
 				for (OverlayItem item : items) {
 					Point p=new Point(0,0);
 					
