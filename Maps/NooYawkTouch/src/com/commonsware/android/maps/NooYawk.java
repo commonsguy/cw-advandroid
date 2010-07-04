@@ -173,7 +173,7 @@ public class NooYawk extends MapActivity {
 				}
 				
 				for (OverlayItem item : items) {
-					Point p = new Point(0,0);
+					Point p=new Point(0,0);
 					
 					map.getProjection().toPixels(item.getPoint(), p);
 					
