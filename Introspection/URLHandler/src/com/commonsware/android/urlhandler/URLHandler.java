@@ -12,7 +12,7 @@
 	limitations under the License.
 */
 
-package com.commonsware.andorid.urlhandler;
+package com.commonsware.android.urlhandler;
 
 import android.app.Activity;
 import android.content.Intent;
