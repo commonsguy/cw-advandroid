@@ -14,17 +14,19 @@
 
 package com.commonsware.android.advservice;
 
+import android.app.Activity;
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.ResultReceiver;
 import android.util.Log;
 import bsh.Interpreter;
 
 public class BshService extends IntentService {
 	private static final String SCRIPT="com.commonsware.SCRIPT";
 	private static final String BROADCAST_ACTION="com.commonsware.BROADCAST_ACTION";
-	private static final String RECEIVER="com.commonsware.RECEIVER";
+	private static final String BROADCAST_PACKAGE="com.commonsware.BROADCAST_PACKAGE";
+	private static final String PENDING_RESULT="com.commonsware.PENDING_RESULT";
 	private static final String PAYLOAD="com.commonsware.PAYLOAD";
 	private static final String RESULT_CODE="com.commonsware.RESULT_CODE";
 	private static final int SUCCESS=1337;
@@ -70,52 +72,37 @@ public class BshService extends IntentService {
 	}
 	
 	private void success(Intent intent, String result) {
-		String broadcast=intent.getStringExtra(BROADCAST_ACTION);
-		
-		if (broadcast==null) {
-			ResultReceiver receiver=(ResultReceiver)intent.getParcelableExtra(RECEIVER);
-			
-			if (receiver!=null) {
-				Bundle b=new Bundle();
-				
-				b.putString(PAYLOAD, result);
-				
-				receiver.send(SUCCESS, b);
-			}
-		}
-		else {
-			Intent bcast=new Intent(broadcast);
-			
-			bcast.setPackage("com.commonsware.android.advservice.client");
-			bcast.putExtra(PAYLOAD, result);
-			bcast.putExtra(RESULT_CODE, SUCCESS);
-			
-			sendBroadcast(bcast);
-		}
+		send(intent, result, SUCCESS);
 	}
 	
 	private void failure(Intent intent, String error) {
+		send(intent, error, -1);
+	}
+	
+	private void send(Intent intent, String result, int code) {
 		String broadcast=intent.getStringExtra(BROADCAST_ACTION);
+		Intent data=new Intent();
+		
+		data.putExtra(PAYLOAD, result);
+		data.putExtra(RESULT_CODE, code);
 		
 		if (broadcast==null) {
-			ResultReceiver receiver=(ResultReceiver)intent.getParcelableExtra(RECEIVER);
+			PendingIntent pi=(PendingIntent)intent.getParcelableExtra(PENDING_RESULT);
 			
-			if (receiver!=null) {
-				Bundle b=new Bundle();
-				
-				b.putString(PAYLOAD, error);
-				
-				receiver.send(-1, b);
+			if (pi!=null) {
+				try {
+					pi.send(this, Activity.RESULT_OK, data);
+				}
+				catch (PendingIntent.CanceledException e) {
+					// no-op -- client must be gone
+				}
 			}
 		}
 		else {
-			Intent bcast=new Intent(broadcast);
-			
-			bcast.setPackage("com.commonsware.android.advservice.client");
-			bcast.putExtra(PAYLOAD, error);
-			bcast.putExtra(RESULT_CODE, -1);
-			
-			sendBroadcast(bcast);
+			data.setPackage(intent.getStringExtra(BROADCAST_PACKAGE));
+			data.setAction(broadcast);
+
+			sendBroadcast(data);
 		}
 	}
 }
