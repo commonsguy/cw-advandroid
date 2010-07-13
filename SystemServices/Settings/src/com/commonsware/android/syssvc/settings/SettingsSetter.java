@@ -48,12 +48,12 @@ public class SettingsSetter extends ListActivity {
 		settings.add(new BooleanSetting(Settings.System.INSTALL_NON_MARKET_APPS,
 																			"Allow non-Market app installs",
 																			true));
-		settings.add(new BooleanSetting(Settings.System.LOCK_PATTERN_ENABLED,
-																			"Require lock pattern",
-																			true));
-		settings.add(new BooleanSetting(Settings.System.LOCK_PATTERN_VISIBLE,
-																			"Lock pattern visible",
-																			true));
+		settings.add(new BooleanSetting(Settings.System.HAPTIC_FEEDBACK_ENABLED,
+																			"Use haptic feedback",
+																			false));
+		settings.add(new BooleanSetting(Settings.System.ACCELEROMETER_ROTATION,
+																			"Rotate based on accelerometer",
+																			false));
 	}
 	
 	@Override
