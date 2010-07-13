@@ -29,7 +29,7 @@ import java.util.List;
 import winterwell.jtwitter.Twitter;
 
 public class AppWidget extends AppWidgetProvider {
-	private static final String REFRESH="com.commonsware.android.appwidget.REFRESH";
+	public static final String REFRESH="com.commonsware.android.appwidget.REFRESH";
 	
 	@Override
 	public void onReceive(Context ctxt, Intent intent) {
@@ -85,7 +85,16 @@ public class AppWidget extends AppWidgetProvider {
 					client.setAPIRootUrl(service_url);
 				}
 				
-				List<Twitter.Status> timeline=client.getFriendsTimeline();
+				List<Twitter.Status> timeline=null;
+				
+				try {
+					for (int i=0;i<10 && timeline==null; i++) {
+						timeline=client.getFriendsTimeline();
+					}
+				}
+				catch (NullPointerException e) {
+					// means JTwitter and identi.ca are not getting along
+				}
 				
 				if (timeline.size()>0) {
 					Twitter.Status s=timeline.get(0);

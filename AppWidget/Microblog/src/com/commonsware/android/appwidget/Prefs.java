@@ -66,7 +66,11 @@ public class Prefs extends PreferenceActivity {
 				result.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
 													id);
 				setResult(RESULT_OK, result);
-				sendBroadcast(new Intent(this, AppWidget.class));
+				
+				Intent update=new Intent(this, AppWidget.class);
+				
+				update.setAction(AppWidget.REFRESH);
+				sendBroadcast(update);
 			}
 		}
 		
