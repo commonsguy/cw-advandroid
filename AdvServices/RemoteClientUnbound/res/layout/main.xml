@@ -4,26 +4,26 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		>
-  <LinearLayout
-      android:orientation="horizontal"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      >
-    <Button
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Go via Private Broadcast!"
-        android:onClick="evalPrivateBroadcast"
-        />
-    <Button
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Go via createPendingResult()!" 
-        android:onClick="evalPendingResult"
-        />
-  </LinearLayout>
+	<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			>
+		<Button
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="Go via Private Broadcast!"
+				android:onClick="evalPrivateBroadcast"
+				/>
+		<Button
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="Go via createPendingResult()!" 
+				android:onClick="evalPendingResult"
+				/>
+	</LinearLayout>
 <EditText
 		android:id="@+id/script"
 		android:layout_width="fill_parent" 

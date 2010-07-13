@@ -201,7 +201,7 @@ public class NooYawk extends MapActivity {
 				
 				GeoPoint pt=map.getProjection().fromPixels(x-xDragTouchOffset,
 																									 y-yDragTouchOffset);
-        OverlayItem toDrop=new OverlayItem(pt, inDrag.getTitle(),
+				OverlayItem toDrop=new OverlayItem(pt, inDrag.getTitle(),
 																					 inDrag.getSnippet());
 				
 				items.add(toDrop);

@@ -31,7 +31,7 @@ public class URLHandler extends Activity {
 		TextView uri=(TextView)findViewById(R.id.uri);
 		
 		if (Intent.ACTION_MAIN.equals(getIntent().getAction())) {
-			String intentUri=getIntent()
+			String intentUri=(new Intent("com.commonsware.android.MY_ACTION"))
 													.toUri(Intent.URI_INTENT_SCHEME)
 													.toString();
 			
@@ -39,7 +39,14 @@ public class URLHandler extends Activity {
 			Log.w("URLHandler", intentUri);
 		}
 		else {
-			uri.setText(getIntent().getData().toString());
+			Uri data=getIntent().getData();
+			
+			if (data==null) {
+				uri.setText("Got com.commonsware.android.MY_ACTION Intent");
+			}
+			else {			
+				uri.setText(getIntent().getData().toString());
+			}
 		}
 	}
 	
