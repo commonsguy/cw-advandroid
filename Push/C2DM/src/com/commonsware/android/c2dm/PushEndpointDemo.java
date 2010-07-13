@@ -18,6 +18,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import com.google.android.c2dm.C2DMessaging;
 
 public class PushEndpointDemo extends Activity {
 	@Override
@@ -29,6 +30,6 @@ public class PushEndpointDemo extends Activity {
 	public void registerAccount(View v) {
 		EditText acct=(EditText)findViewById(R.id.account);
 		
-		PushEndpoint.register(this, acct.getText().toString());
+		C2DMessaging.register(this, acct.getText().toString());
 	}
 }
