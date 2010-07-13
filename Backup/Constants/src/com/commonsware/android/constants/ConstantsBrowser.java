@@ -286,6 +286,9 @@ Log.w("ConstantsBrowser", "Making backup");
 Log.w("ConstantsBrowser", "Restoring backup");						
 						copyFile(backupDb, currentDb);
 					}
+					else {
+Log.w("ConstantsBrowser", "Nothing to do!");						
+					}
 				}
 				catch (Throwable t) {
 					Log.e("ConstantsBrowser", "Exception making database backup", t);
@@ -302,12 +305,12 @@ Log.w("ConstantsBrowser", "Restoring backup");
 		
 		private void requestBackupToCloud() {
 			try {
-        Class clsBackupMgr=Class.forName("android.app.backup.BackupManager");
+				Class clsBackupMgr=Class.forName("android.app.backup.BackupManager");
 				
 				clsBackupMgr
 					.getMethod("dataChanged", String.class)
 					.invoke(clsBackupMgr, "com.commonsware.android.constants");
-      }
+			}
 			catch (Throwable t) {
 				Log.e("ConstantsBrowser", "Exception requesting backup to cloud", t);
 			}

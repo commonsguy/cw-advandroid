@@ -10,5 +10,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		<meta-data android:name="com.google.android.backup.api_key"
+				android:value="@string/backup_api_key" />
 	</application>
 </manifest>

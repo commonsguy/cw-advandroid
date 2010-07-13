@@ -23,24 +23,24 @@ import android.os.ParcelFileDescriptor;
 import java.io.IOException;
 
 public class AppBackupAgent extends BackupAgentHelper {
-  static final String DB_BACKUP_KEY="db";
+	static final String DB_BACKUP_KEY="db";
 
 	@Override
-  public void onCreate() {
+	public void onCreate() {
 		addHelper(DB_BACKUP_KEY,
 								new FileBackupHelper(this,
 																		 DatabaseHelper.getBackupPath(this)));
-  }
+	}
 	
 	@Override
 	public void onBackup(ParcelFileDescriptor oldState,
 												BackupDataOutput data,
 												ParcelFileDescriptor newState)
 		throws IOException {
-    synchronized(ConstantsBrowser.BACKUP_LOCK) {
+		synchronized(ConstantsBrowser.BACKUP_LOCK) {
 android.util.Log.w("AppBackupAgent", "onBackup");				
-      super.onBackup(oldState, data, newState);
-    }
+			super.onBackup(oldState, data, newState);
+		}
 }
 
 	@Override
@@ -48,9 +48,9 @@ android.util.Log.w("AppBackupAgent", "onBackup");
 												int appVersionCode,
 												ParcelFileDescriptor newState)
 		throws IOException {
-    synchronized(ConstantsBrowser.BACKUP_LOCK) {
+		synchronized(ConstantsBrowser.BACKUP_LOCK) {
 android.util.Log.w("AppBackupAgent", "onRestore");				
-      super.onRestore(data, appVersionCode, newState);
-    }
+			super.onRestore(data, appVersionCode, newState);
+		}
 	}
 }
