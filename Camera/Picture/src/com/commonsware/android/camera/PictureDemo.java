@@ -32,6 +32,7 @@ public class PictureDemo extends Activity {
 	private SurfaceView preview=null;
 	private SurfaceHolder previewHolder=null;
 	private Camera camera=null;
+	private boolean inPreview=false;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,25 +46,40 @@ public class PictureDemo extends Activity {
 	}
 	
 	@Override
+	public void onResume() {
+		super.onResume();
+		
+		camera=CameraFinder.INSTANCE.open();
+	}
+		
+	@Override
+	public void onPause() {
+		if (inPreview) {
+			camera.stopPreview();
+		}
+		
+		camera.release();
+		camera=null;
+		inPreview=false;
+					
+		super.onPause();
+	}
+	
+	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode==KeyEvent.KEYCODE_CAMERA ||
 				keyCode==KeyEvent.KEYCODE_SEARCH) {
-			takePicture();
-			
+			camera.takePicture(null, null, photoCallback);
+			inPreview=false;
+
 			return(true);
 		}
 		
 		return(super.onKeyDown(keyCode, event));
 	}
 	
-	private void takePicture() {
-		camera.takePicture(null, null, photoCallback);
-	}
-	
 	SurfaceHolder.Callback surfaceCallback=new SurfaceHolder.Callback() {
 		public void surfaceCreated(SurfaceHolder holder) {
-			camera=Camera.open();
-			
 			try {
 				camera.setPreviewDisplay(previewHolder);
 			}
@@ -86,12 +102,11 @@ public class PictureDemo extends Activity {
 			
 			camera.setParameters(parameters);
 			camera.startPreview();
+			inPreview=true;
 		}
 		
 		public void surfaceDestroyed(SurfaceHolder holder) {
-			camera.stopPreview();
-			camera.release();
-			camera=null;
+			// no-op
 		}
 	};
 	
@@ -99,6 +114,7 @@ public class PictureDemo extends Activity {
 		public void onPictureTaken(byte[] data, Camera camera) {
 			new SavePhotoTask().execute(data);
 			camera.startPreview();
+			inPreview=true;
 		}
 	};
 	

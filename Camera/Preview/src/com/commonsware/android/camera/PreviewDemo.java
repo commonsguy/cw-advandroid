@@ -26,6 +26,7 @@ public class PreviewDemo extends Activity {
 	private SurfaceView preview=null;
 	private SurfaceHolder previewHolder=null;
 	private Camera camera=null;
+	private boolean inPreview=false;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,10 +39,28 @@ public class PreviewDemo extends Activity {
 		previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 	}
 	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		camera=Camera.open();
+	}
+		
+	@Override
+	public void onPause() {
+		if (inPreview) {
+			camera.stopPreview();
+		}
+		
+		camera.release();
+		camera=null;
+		inPreview=false;
+					
+		super.onPause();
+	}
+	
 	SurfaceHolder.Callback surfaceCallback=new SurfaceHolder.Callback() {
 		public void surfaceCreated(SurfaceHolder holder) {
-			camera=Camera.open();
-			
 			try {
 				camera.setPreviewDisplay(previewHolder);
 			}
@@ -62,12 +81,11 @@ public class PreviewDemo extends Activity {
 			parameters.setPreviewSize(width, height);
 			camera.setParameters(parameters);
 			camera.startPreview();
+			inPreview=true;
 		}
 		
 		public void surfaceDestroyed(SurfaceHolder holder) {
-			camera.stopPreview();
-			camera.release();
-			camera=null;
+			// no-op
 		}
 	};
 }
