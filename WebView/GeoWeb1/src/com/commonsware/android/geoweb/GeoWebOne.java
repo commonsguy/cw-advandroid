@@ -21,6 +21,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.webkit.WebView;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class GeoWebOne extends Activity {
 	private static String PROVIDER=LocationManager.GPS_PROVIDER;
@@ -46,16 +48,16 @@ public class GeoWebOne extends Activity {
 		super.onResume();
 		myLocationManager.requestLocationUpdates(PROVIDER, 10000,
 																							100.0f,
-																							onLocationChange);
+																							onLocation);
 	}
 	
 	@Override
 	public void onPause() {
 		super.onPause();
-		myLocationManager.removeUpdates(onLocationChange);
+		myLocationManager.removeUpdates(onLocation);
 	}
 	
-	LocationListener onLocationChange=new LocationListener() {
+	LocationListener onLocation=new LocationListener() {
 		public void onLocationChanged(Location location) {
 			// ignore...for now
 		}
@@ -75,24 +77,19 @@ public class GeoWebOne extends Activity {
 	};
 	
 	public class Locater {
-		public double getLatitude() {
+		public String getLocation() throws JSONException {
 			Location loc=myLocationManager.getLastKnownLocation(PROVIDER);
 			
 			if (loc==null) {
-				return(0);
+				return(null);
 			}
 			
-			return(loc.getLatitude());
-		}
-		
-		public double getLongitude() {
-			Location loc=myLocationManager.getLastKnownLocation(PROVIDER);
+			JSONObject json=new JSONObject();
+
+			json.put("lat", loc.getLatitude());
+			json.put("lon", loc.getLongitude());
 			
-			if (loc==null) {
-				return(0);
-			}
-			
-			return(loc.getLongitude());
+			return(json.toString());
 		}
 	}
 }

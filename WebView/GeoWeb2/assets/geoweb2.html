@@ -6,6 +6,11 @@
 		document.getElementById("lat").innerHTML=lat;
 		document.getElementById("lon").innerHTML=lon;
 	}
+	
+	function pull() {
+		var location=eval('(' + locater.getLocation() + ')');
+		whereami(location.lat, location.lon);
+	}
 </script>
 </head>
 <body>
@@ -13,8 +18,7 @@
 You are at: <br/> <span id="lat">(unknown)</span> latitude and <br/>
 <span id="lon">(unknown)</span> longitude.
 </p>
-<p><a onClick="whereami(locater.getLatitude(), locater.getLongitude())">
-Update Location</a></p>
+<p><a onClick="pull()">Update Location</a></p>
 </body>
 </html>
 

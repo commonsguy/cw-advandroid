@@ -45,6 +45,7 @@ public class VideoDemo extends Activity {
 			ctlr.setMediaPlayer(video);
 			video.setMediaController(ctlr);
 			video.requestFocus();
+			video.start();
 		}
 	}
 }
