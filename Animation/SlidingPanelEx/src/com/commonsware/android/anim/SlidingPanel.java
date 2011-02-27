@@ -56,12 +56,12 @@ public class SlidingPanel extends LinearLayout {
 		if (isOpen) {
 			setVisibility(View.VISIBLE);
 			anim=new TranslateAnimation(0.0f, 0.0f,
-																	getLayoutParams().height,
+																	getHeight(),
 																	0.0f);
 		}
 		else {
 			anim=new TranslateAnimation(0.0f, 0.0f, 0.0f,
-																	getLayoutParams().height);
+																	getHeight());
 			anim.setAnimationListener(collapseListener);
 			set.addAnimation(fadeOut);
 		}

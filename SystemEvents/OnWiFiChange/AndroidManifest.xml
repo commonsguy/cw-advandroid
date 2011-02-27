@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-			package="com.commonsware.android.sysevents.wifi"
-			android:versionCode="1"
-			android:versionName="1.0">
-		<application android:label="@string/app_name">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.commonsware.android.sysevents.wifi" android:versionCode="1" android:versionName="1.0">
+		<application android:label="@string/app_name" android:icon="@drawable/cw">
 				<receiver android:name=".OnWiFiChangeReceiver">
 						<intent-filter>
-								<action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+								<action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
 						</intent-filter>
 				</receiver>
 		</application>
