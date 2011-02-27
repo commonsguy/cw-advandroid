@@ -86,7 +86,7 @@ public abstract class C2DMBaseReceiver extends IntentService {
 		/**
 		 * Called when a registration token has been received.
 		 */
-		public void onRegistrered(Context context, String registrationId) throws IOException {
+		public void onRegistered(Context context, String registrationId) throws IOException {
 				// registrationId will also be saved
 		}
 
@@ -185,7 +185,7 @@ public abstract class C2DMBaseReceiver extends IntentService {
 						} 
 				} else {
 						try {
-								onRegistrered(context, registrationId);
+								onRegistered(context, registrationId);
 								C2DMessaging.setRegistrationId(context, registrationId);
 						} catch (IOException ex) {
 								Log.e(TAG, "Registration error " + ex.getMessage());

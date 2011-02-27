@@ -25,7 +25,7 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 	}
 
 	@Override
-	public void onRegistrered(Context context, String registrationId) {
+	public void onRegistered(Context context, String registrationId) {
 		Log.w("C2DMReceiver-onRegistered", registrationId);
 	}
 	
