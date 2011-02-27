@@ -59,6 +59,29 @@ public class PreviewDemo extends Activity {
 		super.onPause();
 	}
 	
+	private Camera.Size getBestPreviewSize(int width, int height,
+																				 Camera.Parameters parameters) {
+		Camera.Size result=null;
+		
+		for (Camera.Size size : parameters.getSupportedPreviewSizes()) {
+			if (size.width<=width && size.height<=height) {
+				if (result==null) {
+					result=size;
+				}
+				else {
+					int resultDelta=width-result.width+height-result.height;
+					int newDelta=width-size.width+height-size.height;
+					
+					if (newDelta<resultDelta) {
+						result=size;
+					}
+				}
+			}
+		}
+		
+		return(result);
+	}
+	
 	SurfaceHolder.Callback surfaceCallback=new SurfaceHolder.Callback() {
 		public void surfaceCreated(SurfaceHolder holder) {
 			try {
@@ -77,11 +100,15 @@ public class PreviewDemo extends Activity {
 															 int format, int width,
 															 int height) {
 			Camera.Parameters parameters=camera.getParameters();
+			Camera.Size size=getBestPreviewSize(width, height,
+																					parameters);
 			
-			parameters.setPreviewSize(width, height);
-			camera.setParameters(parameters);
-			camera.startPreview();
-			inPreview=true;
+			if (size!=null) {
+				parameters.setPreviewSize(size.width, size.height);
+				camera.setParameters(parameters);
+				camera.startPreview();
+				inPreview=true;
+			}
 		}
 		
 		public void surfaceDestroyed(SurfaceHolder holder) {
