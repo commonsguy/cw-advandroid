@@ -21,22 +21,22 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 public class MapDetector extends Activity {
-  @Override
-  public void onCreate(Bundle instanceState) {
-    super.onCreate(instanceState);
-    
-    try {
-      Class.forName("com.google.android.maps.MapActivity");
-      startActivity(new Intent(this, NooYawk.class));
-    }
-    catch (Exception e) {
-      Toast
-            .makeText(this,
-                       "Google Maps are not available -- sorry!",
-                       Toast.LENGTH_LONG)
-            .show();
-    }
-    
-    finish();
-  }
+	@Override
+	public void onCreate(Bundle instanceState) {
+		super.onCreate(instanceState);
+		
+		try {
+			Class.forName("com.google.android.maps.MapActivity");
+			startActivity(new Intent(this, NooYawk.class));
+		}
+		catch (Exception e) {
+			Toast
+						.makeText(this,
+											 "Google Maps are not available -- sorry!",
+											 Toast.LENGTH_LONG)
+						.show();
+		}
+		
+		finish();
+	}
 }

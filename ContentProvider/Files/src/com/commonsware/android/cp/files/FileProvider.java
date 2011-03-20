@@ -108,15 +108,15 @@ public class FileProvider extends ContentProvider {
 	}
 	
 	static private void copy(InputStream in, File dst) throws IOException {
-    FileOutputStream out=new FileOutputStream(dst);
-    byte[] buf=new byte[1024];
-    int len;
+		FileOutputStream out=new FileOutputStream(dst);
+		byte[] buf=new byte[1024];
+		int len;
 		
-    while((len=in.read(buf))>0) {
-      out.write(buf, 0, len);
-    }
+		while((len=in.read(buf))>0) {
+			out.write(buf, 0, len);
+		}
 		
-    in.close();
-    out.close();
+		in.close();
+		out.close();
 	}
 }

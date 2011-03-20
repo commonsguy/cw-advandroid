@@ -70,7 +70,7 @@ public class MusicClipper extends Activity{
 				startActivity(new Intent(Intent.ACTION_VIEW, song));
 			}
 			else {
-			Toast.makeText(this, "There is no song!", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "There is no song!", Toast.LENGTH_LONG).show();
 			}
 		}
 	}

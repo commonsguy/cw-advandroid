@@ -25,53 +25,53 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 public class IPClipper extends Activity {
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.main);
-    
-    try {
-      String addr=getLocalIPAddress();
-      
-      if (addr==null) {
-        Toast.makeText(this,
-                       "IP address not available -- are you online?",
-                       Toast.LENGTH_LONG)
-              .show();
-      }
-      else {
-        ClipboardManager cm=(ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-        
-        cm.setText(addr);
-        Toast.makeText(this, "IP Address clipped!", Toast.LENGTH_SHORT)
-              .show();
-      }
-    }
-    catch (Exception e) {
-      Log.e("IPClipper", "Exception getting IP address", e);
-      Toast.makeText(this,
-                     "Could not obtain IP address",
-                     Toast.LENGTH_LONG)
-            .show();
-    }
-  }
-  
-  public String getLocalIPAddress() throws SocketException {
-    Enumeration<NetworkInterface> nics=NetworkInterface.getNetworkInterfaces();
-    
-    while (nics.hasMoreElements()) {
-      NetworkInterface intf=nics.nextElement();
-      Enumeration<InetAddress> addrs=intf.getInetAddresses();
-      
-      while (addrs.hasMoreElements()) {
-        InetAddress addr=addrs.nextElement();
-        
-        if (!addr.isLoopbackAddress()) {
-          return(addr.getHostAddress().toString());
-        }
-      }
-    }
-    
-    return(null);
-  }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+		
+		try {
+			String addr=getLocalIPAddress();
+			
+			if (addr==null) {
+				Toast.makeText(this,
+											 "IP address not available -- are you online?",
+											 Toast.LENGTH_LONG)
+							.show();
+			}
+			else {
+				ClipboardManager cm=(ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+				
+				cm.setText(addr);
+				Toast.makeText(this, "IP Address clipped!", Toast.LENGTH_SHORT)
+							.show();
+			}
+		}
+		catch (Exception e) {
+			Log.e("IPClipper", "Exception getting IP address", e);
+			Toast.makeText(this,
+										 "Could not obtain IP address",
+										 Toast.LENGTH_LONG)
+						.show();
+		}
+	}
+	
+	public String getLocalIPAddress() throws SocketException {
+		Enumeration<NetworkInterface> nics=NetworkInterface.getNetworkInterfaces();
+		
+		while (nics.hasMoreElements()) {
+			NetworkInterface intf=nics.nextElement();
+			Enumeration<InetAddress> addrs=intf.getInetAddresses();
+			
+			while (addrs.hasMoreElements()) {
+				InetAddress addr=addrs.nextElement();
+				
+				if (!addr.isLoopbackAddress()) {
+					return(addr.getHostAddress().toString());
+				}
+			}
+		}
+		
+		return(null);
+	}
 }
