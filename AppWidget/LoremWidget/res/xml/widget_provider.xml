@@ -3,6 +3,6 @@
 	android:minHeight="146dip"
 	android:updatePeriodMillis="0"
 	android:initialLayout="@layout/widget"
-  android:autoAdvanceViewId="@+id/words"
-  android:previewImage="@drawable/preview"
+	android:autoAdvanceViewId="@+id/words"
+	android:previewImage="@drawable/preview"
 />
