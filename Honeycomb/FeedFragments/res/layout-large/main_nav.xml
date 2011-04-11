@@ -5,23 +5,16 @@
 	android:orientation="horizontal"
 	android:weightSum="100"
 >							
-	<fragment
-		class="com.commonsware.android.feedfrags.FeedsFragment"
-		android:id="@+id/feeds"
-		android:layout_width="0dip"
-		android:layout_height="match_parent"
-		android:layout_weight="30"
-	/>
 	<FrameLayout
 		android:id="@+id/second_pane"
 		android:layout_width="0dip"
 		android:layout_height="match_parent"
-		android:layout_weight="30"
+		android:layout_weight="40"
 	/>
 	<FrameLayout
 		android:id="@+id/third_pane"
 		android:layout_width="0dip"
 		android:layout_height="match_parent"
-		android:layout_weight="40"
+		android:layout_weight="60"
 	/>
 </LinearLayout>

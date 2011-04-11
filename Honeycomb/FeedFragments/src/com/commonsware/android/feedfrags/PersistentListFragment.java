@@ -14,44 +14,38 @@
 
 package com.commonsware.android.feedfrags;
 
+import android.support.v4.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class FeedsFragment extends PersistentListFragment {
-	private OnFeedListener listener=null;
-	private ArrayAdapter<Feed> adapter=null;
-	
-	@Override
-	public void onActivityCreated(Bundle state) {
-		super.onActivityCreated(state);
-		
-		loadFeeds();
-		restoreState(state);
-	}
+public class PersistentListFragment extends ListFragment {
+	static public final String STATE_CHECKED="com.commonsware.android.feedfrags.STATE_CHECKED";
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position,
 															long id) {
-		super.onListItemClick(l, v, position, id);
-		
-		if (listener!=null) {
-			listener.onFeedSelected(adapter.getItem(position));
+		l.setItemChecked(position, true);
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle state) {
+		state.putInt(STATE_CHECKED,
+									getListView().getCheckedItemPosition());
+	}
+	
+	public void restoreState(Bundle state) {
+		if (state!=null) {
+			int position=state.getInt(STATE_CHECKED, -1);
+			
+			if (position>-1) {
+				getListView().setItemChecked(position, true);
+			}
 		}
 	}
-
-	public void loadFeeds() {
-		adapter=new ArrayAdapter<Feed>(getActivity(), R.layout.row,
-																		Feed.getFeeds());
-		setListAdapter(adapter);
-	}
 	
-	public void setOnFeedListener(OnFeedListener listener) {
-		this.listener=listener;
-	}
-	
-	public interface OnFeedListener {
-		void onFeedSelected(Feed feed);
+	public void enablePersistentSelection() {
+		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
 }

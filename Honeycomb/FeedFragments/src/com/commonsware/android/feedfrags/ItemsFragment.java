@@ -14,13 +14,18 @@
 
 package com.commonsware.android.feedfrags;
 
-import android.support.v4.app.ListFragment;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,40 +33,81 @@ import org.mcsoxford.rss.RSSItem;
 import org.mcsoxford.rss.RSSFeed;
 import org.mcsoxford.rss.RSSReader;
 
-public class ItemsFragment extends ListFragment {
+public class ItemsFragment extends PersistentListFragment {
+	private OnItemListener listener=null;
+	private FeedAdapter adapter=null;
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		setRetainInstance(true);
+	}
+
 	@Override
 	public void onActivityCreated(Bundle state) {
 		super.onActivityCreated(state);
 
-		if (state!=null) {
-			int position=state.getInt(FeedsFragment.STATE_CHECKED, -1);
-			
-			if (position>-1) {
-				getListView().setItemChecked(position, true);
-			}
-		}
+		registerForContextMenu(getListView());
+		restoreState(state);
 	}
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position,
 															long id) {
-		l.setItemChecked(position, true);
+		super.onListItemClick(l, v, position, id);
+		
+		if (listener!=null) {
+			listener.onItemSelected(adapter.getItem(position));
+		}
 	}
 	
 	@Override
-	public void onSaveInstanceState(Bundle state) {
-		state.putInt(FeedsFragment.STATE_CHECKED,
-									getListView().getCheckedItemPosition());
+	public void onCreateContextMenu(ContextMenu menu, View v,
+																		ContextMenu.ContextMenuInfo menuInfo) {
+		new MenuInflater(getActivity())
+					.inflate(R.menu.items_context, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterView.AdapterContextMenuInfo info=
+			(AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+
+		switch (item.getItemId()) {
+			case R.id.share:
+				Intent send=new Intent(Intent.ACTION_SEND);
+		
+				send.putExtra(Intent.EXTRA_SUBJECT, "A Link For You!");
+				send.putExtra(Intent.EXTRA_TEXT,
+											adapter.getItem(info.position).getLink().toString());
+				send.setType("text/plain");
+				
+				startActivity(Intent.createChooser(send, "Share The Link"));
+				
+				return(true);
+		}
+		
+		return(super.onContextItemSelected(item));
 	}
 	
-	public void enablePersistentSelection() {
-		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+	public void loadUrl(String url) {
+		new FeedTask().execute(url);
+	}
+	
+	public void setOnItemListener(OnItemListener listener) {
+		this.listener=listener;
 	}
 	
 	private void setFeed(RSSFeed feed) {
-		setListAdapter(new FeedAdapter(feed));
+		adapter=new FeedAdapter(feed);
+		setListAdapter(adapter);
 	}
-	
+		
+	public interface OnItemListener {
+		void onItemSelected(RSSItem item);
+	}
+
 	private /* static */ class FeedTask extends AsyncTask<String, Void, RSSFeed> {
 		private RSSReader reader=new RSSReader();
 		private Exception e=null;
@@ -107,7 +153,7 @@ public class ItemsFragment extends ListFragment {
 		}
 		
 		@Override
-		public Object getItem(int position) {
+		public RSSItem getItem(int position) {
 			return(feed.getItems().get(position));
 		}
 		
@@ -124,8 +170,7 @@ public class ItemsFragment extends ListFragment {
 			if (row==null) {													
 				LayoutInflater inflater=getActivity().getLayoutInflater();
 				
-				row=inflater.inflate(android.R.layout.simple_list_item_1,
-														 parent, false);
+				row=inflater.inflate(R.layout.row, parent, false);
 			}
 			
 			RSSItem item=(RSSItem)getItem(position);

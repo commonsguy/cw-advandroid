@@ -16,7 +16,6 @@ package com.commonsware.android.feedfrags;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Build;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,33 +26,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import org.mcsoxford.rss.RSSItem;
 
-public class FeedsActivity extends AbstractFeedsActivity
-		implements FeedsFragment.OnFeedListener {
-	private boolean isThreePane=false;
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
-		
-		FeedsFragment feeds
-			=(FeedsFragment)getSupportFragmentManager()
-														.findFragmentById(R.id.feeds);
-														
-		feeds.setOnFeedListener(this);
-		
-		isThreePane=(null!=findViewById(R.id.second_pane));
-		
-		if (isThreePane) {
-			feeds.enablePersistentSelection();
-		}
-	}
-	
+abstract public class AbstractFeedsActivity extends FragmentActivity
+		implements ItemsFragment.OnItemListener {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB) {
-			new MenuInflater(this).inflate(R.menu.feeds_hc_options, menu);
-		}
+		new MenuInflater(this).inflate(R.menu.feeds_options, menu);
 
 		return(super.onCreateOptionsMenu(menu));
 	}
@@ -61,9 +38,9 @@ public class FeedsActivity extends AbstractFeedsActivity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.nav:
-				startActivity(new Intent(this, FeedsNavTabActivity.class));
-				finish();
+			case R.id.add:
+				new AddFeedDialogFragment()
+					.show(getSupportFragmentManager(), "add_feed");
 		
 				return(true);
 		}
@@ -71,43 +48,35 @@ public class FeedsActivity extends AbstractFeedsActivity
 		return(super.onOptionsItemSelected(item));
 	}
 	
-	public void addItemsFragment(Feed feed) {
+	public void onItemSelected(RSSItem item) {
 		FragmentManager fragMgr=getSupportFragmentManager();
-		ItemsFragment items=(ItemsFragment)fragMgr.findFragmentById(R.id.second_pane);
+		ContentFragment content=
+			(ContentFragment)fragMgr.findFragmentById(R.id.third_pane);
 		FragmentTransaction xaction=fragMgr.beginTransaction();
 		
-		if (items==null) {
-			items=new ItemsFragment();
-			items.setOnItemListener(this);
+		if (content==null || content.isRemoving()) {
+			content=new ContentFragment(item.getLink().toString());
 			
 			xaction
-				.add(R.id.second_pane, items)
+				.add(R.id.third_pane, content)
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.addToBackStack(null)
 				.commit();
 		}
 		else {
-			ContentFragment content=
-				(ContentFragment)fragMgr.findFragmentById(R.id.third_pane);
-			
-			if (content!=null) {
-				xaction.remove(content).commit();
+			if (content.isHidden()) {
+				xaction.show(content).commit();
 			}
-		}
 			
-		items.loadUrl(feed.getUrl());
+			content.loadUrl(item.getLink().toString());
+		}
 	}
 	
-	public void onFeedSelected(Feed feed) {
-		if (isThreePane) {
-			addItemsFragment(feed);
-		}
-		else {
-			Intent i=new Intent(this, ItemsActivity.class);
-			
-			i.putExtra(ItemsActivity.EXTRA_FEED_KEY, feed.getKey());
-			
-			startActivity(i);
-		}
+	public void loadFeeds() {
+		FeedsFragment feeds
+			=(FeedsFragment)getSupportFragmentManager()
+														.findFragmentById(R.id.feeds);
+														
+		feeds.loadFeeds();
 	}
 }

@@ -19,5 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="ItemsActivity" />
+        <activity android:name="FeedsNavTabActivity" />
     </application>
 </manifest>
