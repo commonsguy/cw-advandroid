@@ -1,18 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:id="@+id/tabs"
-		android:title="Show Tabs"
-		android:icon="@drawable/ic_menu_more"
-		android:visible="false"
-	/>
-	<item android:id="@+id/list"
-		android:title="Show List"
-		android:icon="@drawable/ic_menu_more"
-	/>
-	<item android:id="@+id/nav"
-		android:title="Switch to 3-Pane"
-		android:icon="@drawable/ic_menu_chat_dashboard"
-	/>
 	<item android:id="@+id/lights_out"
-		android:title="Lights Out"/>
+		android:title="@string/lights_out"/>
 </menu>

@@ -14,6 +14,7 @@
 
 package com.commonsware.android.feedfrags;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,6 +37,15 @@ import org.mcsoxford.rss.RSSReader;
 public class ItemsFragment extends PersistentListFragment {
 	private OnItemListener listener=null;
 	private FeedAdapter adapter=null;
+	private boolean persistentSelection=false;
+	
+	public ItemsFragment() {
+		this(false);
+	}
+	
+	public ItemsFragment(boolean persistentSelection) {
+		this.persistentSelection=persistentSelection;
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +60,10 @@ public class ItemsFragment extends PersistentListFragment {
 
 		registerForContextMenu(getListView());
 		restoreState(state);
+		
+		if (persistentSelection) {
+			enablePersistentSelection();
+		}
 	}
 
 	@Override
@@ -78,12 +92,13 @@ public class ItemsFragment extends PersistentListFragment {
 			case R.id.share:
 				Intent send=new Intent(Intent.ACTION_SEND);
 		
-				send.putExtra(Intent.EXTRA_SUBJECT, "A Link For You!");
+				send.putExtra(Intent.EXTRA_SUBJECT, R.string.share_subject);
 				send.putExtra(Intent.EXTRA_TEXT,
 											adapter.getItem(info.position).getLink().toString());
 				send.setType("text/plain");
 				
-				startActivity(Intent.createChooser(send, "Share The Link"));
+				startActivity(Intent.createChooser(send,
+																					 getText(R.string.share_title)));
 				
 				return(true);
 		}
@@ -107,8 +122,18 @@ public class ItemsFragment extends PersistentListFragment {
 	public interface OnItemListener {
 		void onItemSelected(RSSItem item);
 	}
+	
+	private void goBlooey(Throwable t) {
+		AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+		
+		builder
+			.setTitle(R.string.exception)
+			.setMessage(t.toString())
+			.setPositiveButton(R.string.close, null)
+			.show();
+	}
 
-	private /* static */ class FeedTask extends AsyncTask<String, Void, RSSFeed> {
+	private class FeedTask extends AsyncTask<String, Void, RSSFeed> {
 		private RSSReader reader=new RSSReader();
 		private Exception e=null;
 		
@@ -132,8 +157,8 @@ public class ItemsFragment extends PersistentListFragment {
 				setFeed(feed);
 			}
 			else {
-				Log.e("LunchList", "Exception parsing feed", e);
-				// activity.goBlooey(e);
+				Log.e("ItemsFragment", "Exception parsing feed", e);
+				goBlooey(e);
 			}
 		}
 	}

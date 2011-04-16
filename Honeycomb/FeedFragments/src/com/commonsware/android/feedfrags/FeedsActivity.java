@@ -62,8 +62,12 @@ public class FeedsActivity extends AbstractFeedsActivity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.nav:
-				startActivity(new Intent(this, FeedsNavTabActivity.class));
-				finish();
+				startActivity(new Intent(this, FeedsNavActivity.class));
+		
+				return(true);
+
+			case R.id.tabs:
+				startActivity(new Intent(this, FeedsTabActivity.class));
 		
 				return(true);
 		}
@@ -77,7 +81,7 @@ public class FeedsActivity extends AbstractFeedsActivity
 		FragmentTransaction xaction=fragMgr.beginTransaction();
 		
 		if (items==null) {
-			items=new ItemsFragment();
+			items=new ItemsFragment(true);
 			items.setOnItemListener(this);
 			
 			xaction
@@ -92,6 +96,7 @@ public class FeedsActivity extends AbstractFeedsActivity
 			
 			if (content!=null) {
 				xaction.remove(content).commit();
+				fragMgr.popBackStack();
 			}
 		}
 			
@@ -109,5 +114,13 @@ public class FeedsActivity extends AbstractFeedsActivity
 			
 			startActivity(i);
 		}
+	}
+	
+	public void addNewFeed(Feed feed) {
+		FeedsFragment feeds
+			=(FeedsFragment)getSupportFragmentManager()
+														.findFragmentById(R.id.feeds);
+														
+		feeds.addNewFeed(feed);
 	}
 }

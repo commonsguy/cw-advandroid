@@ -31,25 +31,25 @@ public class AddFeedDialogFragment extends DialogFragment {
 											.inflate(R.layout.add_feed, null);
 	
 		return(new AlertDialog.Builder(getActivity())
-						.setTitle("Add a Feed")
+						.setTitle(R.string.add_feed)
 						.setView(form)
-						.setPositiveButton("Add",
+						.setPositiveButton(R.string.add,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog, int whichButton) {
 									processAdd(form);
 								}
 							}
 						)
-						.setNegativeButton("Cancel", null)
+						.setNegativeButton(R.string.cancel, null)
 						.create());
 	}
 	
 	private void processAdd(View form) {
 		EditText name=(EditText)form.findViewById(R.id.name);
 		EditText url=(EditText)form.findViewById(R.id.url);
+		Feed feed=Feed.addFeed(name.getText().toString(),
+													 url.getText().toString());
 		
-		Feed.addFeed(name.getText().toString(), url.getText().toString());
-		
-		((FeedsActivity)getActivity()).loadFeeds();
+		((AbstractFeedsActivity)getActivity()).addNewFeed(feed);
 	}
 }

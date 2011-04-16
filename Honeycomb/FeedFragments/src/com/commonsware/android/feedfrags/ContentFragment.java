@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.support.v4.app.Fragment;
 
 public class ContentFragment extends Fragment {
@@ -44,8 +45,13 @@ public class ContentFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
+		WebView browser=getBrowser();
+		
+		browser.setWebViewClient(new RedirectFixer());
+		browser.getSettings().setJavaScriptEnabled(true);
+		
 		if (savedInstanceState!=null) {
-			getBrowser().restoreState(savedInstanceState);
+			browser.restoreState(savedInstanceState);
 		}
 		else if (urlToLoad!=null) {
 			loadUrl(urlToLoad);
@@ -69,5 +75,13 @@ public class ContentFragment extends Fragment {
 	
 	private WebView getBrowser() {
 		return((WebView)(getView().findViewById(R.id.browser)));
+	}
+
+	private class RedirectFixer extends WebViewClient {
+		public boolean shouldOverrideUrlLoading(WebView view, String url) {
+			view.loadUrl(url);
+			
+			return(true);
+		}
 	}
 }

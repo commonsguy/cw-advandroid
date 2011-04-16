@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Feeds</string>
+    <string name="add_feed">Add a Feed</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
+    <string name="feed_title">Feed: %1$s</string>
+    <string name="share_subject">A Link For You!</string>
+    <string name="share_title">Share The Link</string>
+    <string name="exception">Exception</string>
+    <string name="close">Close</string>
+    <string name="name">Name:</string>
+    <string name="url">URL:</string>
+    <string name="switch_nav">Switch to Nav</string>
+    <string name="switch_tab">Switch to Tabs</string>
+    <string name="lights_out">Lights Out</string>
+    <string name="share">Share</string>
 </resources>

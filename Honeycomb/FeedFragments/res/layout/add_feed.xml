@@ -6,7 +6,7 @@
 		>
 	<TableRow>
 		<TextView
-			android:text="Name:"
+			android:text="@string/name"
 			android:layout_marginRight="4dip"
 		/>
 		<EditText
@@ -16,7 +16,7 @@
 	</TableRow>
 	<TableRow>
 		<TextView
-			android:text="URL:"
+			android:text="@string/url"
 			android:layout_marginRight="4dip"
 		/>
 		<EditText

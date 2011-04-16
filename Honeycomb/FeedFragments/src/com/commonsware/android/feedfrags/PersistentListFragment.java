@@ -35,7 +35,7 @@ public class PersistentListFragment extends ListFragment {
 									getListView().getCheckedItemPosition());
 	}
 	
-	public void restoreState(Bundle state) {
+	protected void restoreState(Bundle state) {
 		if (state!=null) {
 			int position=state.getInt(STATE_CHECKED, -1);
 			

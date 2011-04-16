@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -28,6 +29,8 @@ import org.mcsoxford.rss.RSSItem;
 
 abstract public class AbstractFeedsActivity extends FragmentActivity
 		implements ItemsFragment.OnItemListener {
+	abstract void addNewFeed(Feed feed);
+			
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		new MenuInflater(this).inflate(R.menu.feeds_options, menu);
@@ -42,6 +45,11 @@ abstract public class AbstractFeedsActivity extends FragmentActivity
 				new AddFeedDialogFragment()
 					.show(getSupportFragmentManager(), "add_feed");
 		
+				return(true);
+				
+			case R.id.lights_out:
+				lightsOut();
+				
 				return(true);
 		}
 		
@@ -72,11 +80,26 @@ abstract public class AbstractFeedsActivity extends FragmentActivity
 		}
 	}
 	
-	public void loadFeeds() {
-		FeedsFragment feeds
-			=(FeedsFragment)getSupportFragmentManager()
-														.findFragmentById(R.id.feeds);
-														
-		feeds.loadFeeds();
+	private void lightsOut() {
+		final View view=findViewById(R.id.second_pane);
+		
+		view.setSystemUiVisibility(View.STATUS_BAR_HIDDEN);
+		getActionBar().hide();
+		
+		view.postDelayed(new Runnable() {
+			public void run() {
+				view.setSystemUiVisibility(View.STATUS_BAR_VISIBLE);
+				getActionBar().show();
+			}
+		}, 5000);
+	}
+
+	protected void addItems(FragmentTransaction xaction, Feed feed) {
+		ItemsFragment items=new ItemsFragment(true);
+		
+		items.setOnItemListener(this);
+		items.loadUrl(feed.getUrl());
+		
+		xaction.add(R.id.second_pane, items, "items");
 	}
 }

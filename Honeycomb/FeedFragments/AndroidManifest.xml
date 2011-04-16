@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name="ItemsActivity" />
-        <activity android:name="FeedsNavTabActivity" />
+        <activity android:name="FeedsNavActivity" />
+        <activity android:name="FeedsTabActivity" />
     </application>
 </manifest>

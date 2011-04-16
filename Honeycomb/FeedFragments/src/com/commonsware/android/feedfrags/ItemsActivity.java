@@ -41,7 +41,8 @@ public class ItemsActivity extends FragmentActivity
 		if (key!=null) {
 			Feed feed=Feed.getFeed(key);
 			
-			setTitle("Feed: "+feed.toString());
+			setTitle(String.format(getString(R.string.feed_title),
+														 feed.toString()));
 			items.loadUrl(feed.getUrl());
 		}
 	}

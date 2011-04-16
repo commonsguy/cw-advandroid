@@ -22,10 +22,18 @@ import android.widget.ListView;
 public class FeedsFragment extends PersistentListFragment {
 	private OnFeedListener listener=null;
 	private ArrayAdapter<Feed> adapter=null;
+	private Bundle state=null;
 	
 	@Override
 	public void onActivityCreated(Bundle state) {
 		super.onActivityCreated(state);
+		
+		this.state=state;
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
 		
 		loadFeeds();
 		restoreState(state);
@@ -40,8 +48,12 @@ public class FeedsFragment extends PersistentListFragment {
 			listener.onFeedSelected(adapter.getItem(position));
 		}
 	}
+	
+	public void addNewFeed(Feed feed) {
+		adapter.add(feed);
+	}
 
-	public void loadFeeds() {
+	private void loadFeeds() {
 		adapter=new ArrayAdapter<Feed>(getActivity(), R.layout.row,
 																		Feed.getFeeds());
 		setListAdapter(adapter);

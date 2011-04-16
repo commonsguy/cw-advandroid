@@ -29,27 +29,21 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import org.mcsoxford.rss.RSSItem;
 
-public class FeedsNavTabActivity extends AbstractFeedsActivity {
+public class FeedsTabActivity extends AbstractFeedsActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_nav);
 		
-		showTabs();
-
-		ActionBar bar=getActionBar();
-		
 		for (final Feed feed : Feed.getFeeds()) {
-			bar.addTab(bar
-									.newTab()
-									.setText(feed.toString())
-									.setTabListener(new TabListener(feed)));
+			addNewFeed(feed);
 		}
 		
-		bar.setListNavigationCallbacks(new ArrayAdapter<Feed>(this,
-																													R.layout.row,
-																													Feed.getFeeds()),
-																	 new NavListener());
+		ActionBar bar=getActionBar();
+		
+		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	  bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
+		bar.setDisplayHomeAsUpEnabled(true);
 	}
 	
 	@Override
@@ -58,87 +52,17 @@ public class FeedsNavTabActivity extends AbstractFeedsActivity {
 
 		return(super.onCreateOptionsMenu(menu));
 	}
-	
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		ActionBar bar=getActionBar();
-		
-		if (bar.getNavigationMode()!=ActionBar.NAVIGATION_MODE_TABS) {
-			menu.findItem(R.id.tabs).setVisible(true);
-			menu.findItem(R.id.list).setVisible(false);
-		}
-		else {
-			menu.findItem(R.id.tabs).setVisible(false);
-			menu.findItem(R.id.list).setVisible(true);
-		}
-		
-		return(super.onPrepareOptionsMenu(menu));
-	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.nav:
-				startActivity(new Intent(this, FeedsActivity.class));
+			case android.R.id.home:
 				finish();
 		
-				return(true);
-				
-			case R.id.tabs:
-				showTabs();
-		
-				return(true);
-				
-			case R.id.list:
-				showList();
-		
-				return(true);
-				
-			case R.id.lights_out:
-				lightsOut();
-				
 				return(true);
 		}
 		
 		return(super.onOptionsItemSelected(item));
-	}
-	
-	private void lightsOut() {
-		final View view=findViewById(R.id.second_pane);
-		
-		view.setSystemUiVisibility(View.STATUS_BAR_HIDDEN);
-		getActionBar().hide();
-		
-		view.postDelayed(new Runnable() {
-			public void run() {
-				view.setSystemUiVisibility(View.STATUS_BAR_VISIBLE);
-				getActionBar().show();
-			}
-		}, 5000);
-	}
-	
-	private void showTabs() {
-		ActionBar bar=getActionBar();
-		
-		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-	  bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
-	}
-	
-	private void showList() {
-		ActionBar bar=getActionBar();
-		
-		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-    bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE,
-													ActionBar.DISPLAY_SHOW_TITLE);
-	}
-	
-	private void addItems(FragmentTransaction xaction, Feed feed) {
-		ItemsFragment items=new ItemsFragment();
-		
-		items.setOnItemListener(FeedsNavTabActivity.this);
-		items.loadUrl(feed.getUrl());
-		
-		xaction.add(R.id.second_pane, items, "items");
 	}
 	
 	private void removeFragments(FragmentManager fragMgr,
@@ -146,40 +70,25 @@ public class FeedsNavTabActivity extends AbstractFeedsActivity {
 		ItemsFragment items=(ItemsFragment)fragMgr.findFragmentById(R.id.second_pane);
 			
 		if (items!=null) {
-			if (!items.isRemoving()) {
-				try {
-					xaction.remove(items);
-				}
-				catch (IllegalStateException e) {
-					// TODO: figure out how to get rid of me
-				}
-			}
+			xaction.remove(items);
 			
 			ContentFragment content=
 				(ContentFragment)fragMgr.findFragmentById(R.id.third_pane);
 				
 			if (content!=null && !content.isRemoving()) {
-				try {
-					xaction.remove(content);
-				}
-				catch (IllegalStateException e) {
-					// TODO: figure out how to get rid of me
-				}
+				xaction.remove(content);
+				fragMgr.popBackStack();
 			}
 		}
 	}
 	
-	private class NavListener implements ActionBar.OnNavigationListener {
-		public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-			FragmentManager fragMgr=getSupportFragmentManager();
-			FragmentTransaction xaction=fragMgr.beginTransaction();
-			
-			addItems(xaction, Feed.getFeeds().get(itemPosition));
-			removeFragments(fragMgr, xaction);
-			xaction.commit();
-			
-			return(true);
-		}
+	public void addNewFeed(final Feed feed) {
+		ActionBar bar=getActionBar();
+		
+		bar.addTab(bar
+								.newTab()
+								.setText(feed.toString())
+								.setTabListener(new TabListener(feed)));
 	}
 	
 	private class TabListener implements ActionBar.TabListener {

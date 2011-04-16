@@ -32,8 +32,12 @@ public class Feed implements Comparable<Feed> {
 	private String name;
 	private String url;
 	
-	public static void addFeed(String name, String url) {
-		addFeed(new Feed(name, url));
+	public static Feed addFeed(String name, String url) {
+		Feed result=new Feed(name, url);
+		
+		addFeed(result);
+		
+		return(result);
 	}
 	
 	private static void addFeed(Feed feed) {
