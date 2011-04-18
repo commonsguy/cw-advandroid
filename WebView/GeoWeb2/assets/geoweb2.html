@@ -8,7 +8,8 @@
 	}
 	
 	function pull() {
-		var location=eval('(' + locater.getLocation() + ')');
+		var location=JSON.parse(locater.getLocation());
+		
 		whereami(location.lat, location.lon);
 	}
 </script>

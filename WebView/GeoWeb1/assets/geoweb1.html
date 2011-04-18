@@ -3,7 +3,8 @@
 <title>Android GeoWebOne Demo</title>
 <script language="javascript">
 	function whereami() {
-		var location=eval('(' + locater.getLocation() + ')');
+		var location=JSON.parse(locater.getLocation());
+		
 		document.getElementById("lat").innerHTML=location.lat;
 		document.getElementById("lon").innerHTML=location.lon;
 	}
