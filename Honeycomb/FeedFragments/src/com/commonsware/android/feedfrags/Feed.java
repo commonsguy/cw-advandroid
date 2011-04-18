@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 public class Feed implements Comparable<Feed> {
-	static public HashMap<String, Feed> FEEDS=new HashMap<String, Feed>();
+	static private HashMap<String, Feed> FEEDS=new HashMap<String, Feed>();
 
 	static {
 		addFeed("Slashdot", "http://rss.slashdot.org/Slashdot/slashdot");
