@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.commonsware.android.ordered" android:versionCode="1" android:versionName="1.0">
-	<supports-screens android:largeScreens="true" android:normalScreens="true" android:smallScreens="false"/>
-		<application android:label="@string/app_name" android:icon="@drawable/cw">
-				<activity android:name="OrderedActivity" android:label="@string/app_name">
-						<intent-filter>
-								<action android:name="android.intent.action.MAIN"/>
-								<category android:name="android.intent.category.LAUNCHER"/>
-						</intent-filter>
-				</activity>
-				<service android:name="NoticeService"/>
-			<receiver android:name=".NoticeReceiver">
-					<intent-filter>
-							<action android:name="com.commonsware.android.ordered.NoticeService.BROADCAST"/>
-					</intent-filter>
-			</receiver>
-		</application>
-		<uses-sdk android:minSdkVersion="4"/>
+<manifest android:versionCode="1"
+          android:versionName="1.0"
+          package="com.commonsware.android.ordered"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+          
+  <supports-screens android:largeScreens="true"
+                    android:normalScreens="true"
+                    android:smallScreens="false" />
+  <application android:icon="@drawable/cw"
+               android:label="@string/app_name">
+    <activity android:label="@string/app_name"
+              android:name="OrderedActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <service android:name="NoticeService" />
+    <receiver android:name=".NoticeReceiver">
+      <intent-filter>
+        <action android:name="com.commonsware.android.ordered.NoticeService.BROADCAST" />
+      </intent-filter>
+    </receiver>
+  </application>
+  <uses-sdk android:minSdkVersion="4" />
 </manifest>

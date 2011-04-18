@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.commonsware.android.maps">
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-	
-	<application android:label="@string/app_name"
-		android:icon="@drawable/cw">
-		<uses-library android:name="com.google.android.maps" />
-		<activity android:name=".NooYawk" android:label="@string/app_name">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-	</application>
-	<supports-screens android:xlargeScreens="true"
-									android:largeScreens="true"
-									android:normalScreens="true"
-									android:smallScreens="true"
-									android:anyDensity="true"/>
+<manifest package="com.commonsware.android.maps"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+          
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <application android:icon="@drawable/cw"
+               android:label="@string/app_name">
+    <uses-library android:name="com.google.android.maps" />
+    <activity android:label="@string/app_name"
+              android:name=".NooYawk">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+  </application>
+  <supports-screens android:anyDensity="true"
+                    android:largeScreens="true"
+                    android:normalScreens="true"
+                    android:smallScreens="true"
+                    android:xlargeScreens="true" />
 </manifest>

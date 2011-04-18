@@ -1,13 +1,19 @@
 <?xml version="1.0"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.commonsware.android.video">
- <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="6"/> 
-	<supports-screens android:largeScreens="true" android:normalScreens="true" android:smallScreens="false"/>
-		<application android:icon="@drawable/cw">
-				<activity android:name=".VideoDemo" android:label="VideoDemo">
-						<intent-filter>
-								<action android:name="android.intent.action.MAIN"/>
-								<category android:name="android.intent.category.LAUNCHER"/>
-						</intent-filter>
-				</activity>
-		</application>
+<manifest package="com.commonsware.android.video"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+          
+  <uses-sdk android:minSdkVersion="3"
+            android:targetSdkVersion="6" />
+  <supports-screens android:largeScreens="true"
+                    android:normalScreens="true"
+                    android:smallScreens="false" />
+  <application android:icon="@drawable/cw">
+    <activity android:label="VideoDemo"
+              android:name=".VideoDemo">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+  </application>
 </manifest>
