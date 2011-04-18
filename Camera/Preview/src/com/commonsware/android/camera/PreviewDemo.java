@@ -69,10 +69,10 @@ public class PreviewDemo extends Activity {
 					result=size;
 				}
 				else {
-					int resultDelta=width-result.width+height-result.height;
-					int newDelta=width-size.width+height-size.height;
+					int resultArea=result.width*result.height;
+					int newArea=size.width*size.height;
 					
-					if (newDelta<resultDelta) {
+					if (newArea>resultArea) {
 						result=size;
 					}
 				}
