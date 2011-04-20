@@ -72,10 +72,6 @@ abstract public class AbstractFeedsActivity extends FragmentActivity
 				.commit();
 		}
 		else {
-			if (content.isHidden()) {
-				xaction.show(content).commit();
-			}
-			
 			content.loadUrl(item.getLink().toString());
 		}
 	}

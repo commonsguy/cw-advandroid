@@ -44,7 +44,7 @@ public class FeedsNavActivity extends AbstractFeedsActivity {
 		
 		bar.setListNavigationCallbacks(adapter, new NavListener());
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-    bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE,
+		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE,
 													ActionBar.DISPLAY_SHOW_TITLE);
 		bar.setDisplayHomeAsUpEnabled(true);
 	}
