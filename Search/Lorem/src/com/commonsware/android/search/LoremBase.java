@@ -86,7 +86,7 @@ abstract public class LoremBase extends ListActivity {
 	
 	public void onListItemClick(ListView parent, View v, int position,
 									long id) {
-		selection.setText(items.get(position).toString());
+		selection.setText(parent.getAdapter().getItem(position).toString());
 	}
 		
 	@Override
