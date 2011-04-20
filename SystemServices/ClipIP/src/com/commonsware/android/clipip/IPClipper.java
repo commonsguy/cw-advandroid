@@ -15,8 +15,8 @@
 package com.commonsware.android.clipip;
 
 import android.app.Activity;
+import android.content.ClipboardManager;
 import android.os.Bundle;
-import android.text.ClipboardManager;
 import android.util.Log;
 import android.widget.Toast;
 import java.net.InetAddress;
