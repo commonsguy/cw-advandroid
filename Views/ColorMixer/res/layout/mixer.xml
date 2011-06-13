@@ -17,7 +17,7 @@
 		android:textSize="10pt"
 	/>
 	<SeekBar android:id="@+id/red"
-		android:layout_width="fill_parent"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_alignTop="@id/redLabel"
 		android:layout_toRightOf="@id/redLabel"
@@ -35,7 +35,7 @@
 		android:textSize="10pt"
 	/>
 	<SeekBar android:id="@+id/green"
-		android:layout_width="fill_parent"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_alignTop="@id/greenLabel"
 		android:layout_toRightOf="@id/greenLabel"
@@ -53,7 +53,7 @@
 		android:textSize="10pt"
 	/>
 	<SeekBar android:id="@+id/blue"
-		android:layout_width="fill_parent"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_alignTop="@id/blueLabel"
 		android:layout_toRightOf="@id/blueLabel"

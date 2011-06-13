@@ -1,5 +1,5 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
+	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:stretchColumns="1"
 	>
@@ -26,7 +26,7 @@
 		/>
 	</TableRow>
 	<Button android:id="@+id/save"
-		android:layout_width="fill_parent"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="Create Shortcut"
 		android:onClick="save"
