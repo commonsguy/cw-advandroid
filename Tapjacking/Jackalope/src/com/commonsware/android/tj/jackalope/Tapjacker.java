@@ -62,7 +62,6 @@ public class Tapjacker extends Service implements View.OnTouchListener {
 		super.onDestroy();
 	}
 
-	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		Log.w("Tapjacker",
 					String.valueOf(event.getX())+":"+String.valueOf(event.getY()));
