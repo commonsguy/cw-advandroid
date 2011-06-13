@@ -18,20 +18,14 @@ package com.commonsware.android.constants;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class Provider extends ContentProvider {
 	private static final int CONSTANTS=1;
@@ -68,10 +62,6 @@ public class Provider extends ContentProvider {
 
 		qb.setTables(getTableName());
 		
-		if (!isCollectionUri(url)) {
-			qb.appendWhere(getIdColumnName()+"="+url.getPathSegments().get(1));
-		}
-		
 		String orderBy;
 		
 		if (TextUtils.isEmpty(sort)) {
@@ -84,7 +74,8 @@ public class Provider extends ContentProvider {
 		Cursor c=qb.query(db, projection, selection, selectionArgs,
 											null, null, orderBy);
 		c.setNotificationUri(getContext().getContentResolver(), url);
-		return c;
+		
+		return(c);
 	}
 
 	@Override
@@ -98,29 +89,7 @@ public class Provider extends ContentProvider {
 
 	@Override
 	public Uri insert(Uri url, ContentValues initialValues) {
-		long rowID;
-		ContentValues values;
-		
-		if (initialValues!=null) {
-			values=new ContentValues(initialValues);
-		}
-		else {
-			values=new ContentValues();
-		}
-
-		if (!isCollectionUri(url)) {
-			throw new IllegalArgumentException("Unknown URL " + url);
-		}
-		
-		for (String colName : getRequiredColumns()) {
-			if (values.containsKey(colName) == false) {
-				throw new IllegalArgumentException("Missing column: "+colName);
-			}
-		}
-
-		populateDefaultValues(values);
-
-		rowID=db.insert(getTableName(), Constants.TITLE, values);
+		long rowID=db.insert(getTableName(), Constants.TITLE, initialValues);
 		
 		if (rowID>0) {
 			Uri uri=ContentUris.withAppendedId(getContentUri(), rowID);
@@ -135,7 +104,6 @@ public class Provider extends ContentProvider {
 	@Override
 	public int delete(Uri url, String where, String[] whereArgs) {
 		int count;
-		long rowId=0;
 		
 		if (isCollectionUri(url)) {
 			count=db.delete(getTableName(), where, whereArgs);
@@ -143,7 +111,6 @@ public class Provider extends ContentProvider {
 		else {
 			String segment=url.getPathSegments().get(1);
 			
-			rowId=Long.parseLong(segment);
 			count=db
 					.delete(getTableName(), getIdColumnName()+"="
 							+ segment
@@ -200,16 +167,6 @@ public class Provider extends ContentProvider {
 	
 	private String getSingleType() {
 		return("vnd.commonsware.cursor.item/constant");
-	}
-	
-	private String[] getRequiredColumns() {
-		return(new String[] {Constants.TITLE});
-	}
-	
-	private void populateDefaultValues(ContentValues values) {
-		if (!values.containsKey(Provider.Constants.VALUE)) {
-			values.put(Provider.Constants.VALUE, 0.0f);
-		}
 	}
 	
 	private Uri getContentUri() {

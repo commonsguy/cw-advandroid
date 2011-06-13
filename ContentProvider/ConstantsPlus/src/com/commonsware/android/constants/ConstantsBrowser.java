@@ -17,29 +17,24 @@ package com.commonsware.android.constants;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.method.NumberKeyListener;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 
 public class ConstantsBrowser extends ListActivity {
 	private static final int ADD_ID = Menu.FIRST+1;
-	private static final int EDIT_ID = Menu.FIRST+2;
 	private static final int DELETE_ID = Menu.FIRST+3;
 	private static final String[] PROJECTION = new String[] {
 			Provider.Constants._ID, Provider.Constants.TITLE,
