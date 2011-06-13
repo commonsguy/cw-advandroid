@@ -43,7 +43,6 @@ public class HeaderFooterDemo extends ListActivity {
 																	"pellentesque", "augue",
 																	"purus"};
 	private long startTime=SystemClock.uptimeMillis();
-	private Handler handler=new Handler();
 	private AtomicBoolean areWeDeadYet=new AtomicBoolean(false);
 	
 	@Override
@@ -97,7 +96,7 @@ public class HeaderFooterDemo extends ListActivity {
 		txt.setText(String.valueOf(runtime)+" seconds since activity launched");
 		
 		if (!areWeDeadYet.get()) {
-			handler.postDelayed(new Runnable() {
+			getListView().postDelayed(new Runnable() {
 				public void run() {
 				
 					updateFooter(txt);	
