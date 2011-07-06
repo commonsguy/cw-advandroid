@@ -26,6 +26,7 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -73,8 +74,7 @@ public class URLTagger extends Activity {
 																				new byte[] {}, url);
 			NdefMessage msg=new NdefMessage(new NdefRecord[] {record});
 
-			write(msg, tag);
-			finish();
+			new WriteTask(this, msg, tag).execute();
 		}
 	}
 	
@@ -105,69 +105,6 @@ public class URLTagger extends Activity {
 		super.onPause();
 	}
 	
-	private void write(NdefMessage msg, Tag tag) {
-		int size=msg.toByteArray().length;
-
-		try {
-			Ndef ndef=Ndef.get(tag);
-			
-			if (ndef==null) {
-				NdefFormatable formatable=NdefFormatable.get(tag);
-				
-				if (formatable!=null) {
-					try {
-						formatable.connect();
-						
-						try {
-							formatable.format(msg);
-						}
-						catch (Exception e) {
-							goBlooey("Tag refused to format");
-						}
-					}
-					catch (Exception e) {
-						goBlooey("Tag refused to connect");
-					}
-					finally {
-						formatable.close();
-					}
-				}
-				else {
-					goBlooey("Tag does not support NDEF");
-				}
-			}
-			else {
-				ndef.connect();
-
-				try {
-					if (!ndef.isWritable()) {
-						goBlooey("Tag is read-only");
-					}
-					else if (ndef.getMaxSize()<size) {
-						goBlooey("Message is too big for tag");
-					}
-					else {
-						ndef.writeNdefMessage(msg);
-					}
-				}
-				catch (Exception e) {
-					goBlooey("Tag refused to connect");
-				}
-				finally {
-					ndef.close();
-				}
-			}
-		}
-		catch (Exception e) {
-			Log.e("URLTagger", "Exception when writing tag", e);
-			goBlooey("General exception: "+e.getMessage());
-		}
-	}
-
-	private void goBlooey(String text) {
-		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-	}
-	
 	private byte[] buildUrlBytes() {
 		String raw=getIntent().getStringExtra(Intent.EXTRA_TEXT);
 		int prefix=0;
@@ -189,5 +126,89 @@ public class URLTagger extends Activity {
 		System.arraycopy(subsetBytes, 0, result, 1, subsetBytes.length);
 		
 		return(result);
+	}
+	
+	static class WriteTask extends AsyncTask<Void, Void, Void> {
+		Activity host=null;
+		NdefMessage msg=null;
+		Tag tag=null;
+		String text=null;
+		
+		WriteTask(Activity host, NdefMessage msg, Tag tag) {
+			this.host=host;
+			this.msg=msg;
+			this.tag=tag;
+		}
+		
+		@Override
+		protected Void doInBackground(Void... arg0) {
+			int size=msg.toByteArray().length;
+
+			try {
+				Ndef ndef=Ndef.get(tag);
+				
+				if (ndef==null) {
+					NdefFormatable formatable=NdefFormatable.get(tag);
+					
+					if (formatable!=null) {
+						try {
+							formatable.connect();
+							
+							try {
+								formatable.format(msg);
+							}
+							catch (Exception e) {
+								text="Tag refused to format";
+							}
+						}
+						catch (Exception e) {
+							text="Tag refused to connect";
+						}
+						finally {
+							formatable.close();
+						}
+					}
+					else {
+						text="Tag does not support NDEF";
+					}
+				}
+				else {
+					ndef.connect();
+
+					try {
+						if (!ndef.isWritable()) {
+							text="Tag is read-only";
+						}
+						else if (ndef.getMaxSize()<size) {
+							text="Message is too big for tag";
+						}
+						else {
+							ndef.writeNdefMessage(msg);
+						}
+					}
+					catch (Exception e) {
+						text="Tag refused to connect";
+					}
+					finally {
+						ndef.close();
+					}
+				}
+			}
+			catch (Exception e) {
+				Log.e("URLTagger", "Exception when writing tag", e);
+				text="General exception: "+e.getMessage();
+			}
+			
+			return(null);
+		}
+		
+		@Override
+		protected void onPostExecute(Void unused) {
+			if (text!=null) {
+				Toast.makeText(host, text, Toast.LENGTH_SHORT).show();
+			}
+			
+			host.finish();
+		}
 	}
 }

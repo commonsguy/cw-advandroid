@@ -17,7 +17,6 @@ package com.commonsware.android.nfc.url;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.TextView;
 
 public class URLHandler extends Activity {
 	@Override
