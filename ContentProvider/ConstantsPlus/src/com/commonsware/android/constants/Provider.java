@@ -31,6 +31,7 @@ public class Provider extends ContentProvider {
 	private static final int CONSTANTS=1;
 	private static final int CONSTANT_ID=2;
 	private static final UriMatcher MATCHER;
+	private static final String TABLE="constants";
 	
 	public static final class Constants implements BaseColumns {
 		public static final Uri CONTENT_URI
@@ -60,12 +61,12 @@ public class Provider extends ContentProvider {
 												String[] selectionArgs, String sort) {
 		SQLiteQueryBuilder qb=new SQLiteQueryBuilder();
 
-		qb.setTables(getTableName());
+		qb.setTables(TABLE);
 		
 		String orderBy;
 		
 		if (TextUtils.isEmpty(sort)) {
-			orderBy=getDefaultSortOrder();
+			orderBy=Constants.DEFAULT_SORT_ORDER;
 		}
 		else {
 			orderBy=sort;
@@ -73,6 +74,7 @@ public class Provider extends ContentProvider {
 
 		Cursor c=qb.query(db, projection, selection, selectionArgs,
 											null, null, orderBy);
+		
 		c.setNotificationUri(getContext().getContentResolver(), url);
 		
 		return(c);
@@ -81,18 +83,18 @@ public class Provider extends ContentProvider {
 	@Override
 	public String getType(Uri url) {
 		if (isCollectionUri(url)) {
-			return(getCollectionType());
+			return("vnd.commonsware.cursor.dir/constant");
 		}
 		
-		return(getSingleType());
+		return("vnd.commonsware.cursor.item/constant");
 	}
 
 	@Override
 	public Uri insert(Uri url, ContentValues initialValues) {
-		long rowID=db.insert(getTableName(), Constants.TITLE, initialValues);
+		long rowID=db.insert(TABLE, Constants.TITLE, initialValues);
 		
 		if (rowID>0) {
-			Uri uri=ContentUris.withAppendedId(getContentUri(), rowID);
+			Uri uri=ContentUris.withAppendedId(Provider.Constants.CONTENT_URI, rowID);
 			getContext().getContentResolver().notifyChange(uri, null);
 			
 			return(uri);
@@ -103,20 +105,7 @@ public class Provider extends ContentProvider {
 
 	@Override
 	public int delete(Uri url, String where, String[] whereArgs) {
-		int count;
-		
-		if (isCollectionUri(url)) {
-			count=db.delete(getTableName(), where, whereArgs);
-		}
-		else {
-			String segment=url.getPathSegments().get(1);
-			
-			count=db
-					.delete(getTableName(), getIdColumnName()+"="
-							+ segment
-							+ (!TextUtils.isEmpty(where) ? " AND (" + where
-									+ ')' : ""), whereArgs);
-		}
+		int count=db.delete(TABLE, where, whereArgs);
 
 		getContext().getContentResolver().notifyChange(url, null);
 		
@@ -126,19 +115,7 @@ public class Provider extends ContentProvider {
 	@Override
 	public int update(Uri url, ContentValues values,
 										String where, String[] whereArgs) {
-		int count;
-		
-		if (isCollectionUri(url)) {
-			count=db.update(getTableName(), values, where, whereArgs);
-		}
-		else {
-			String segment=url.getPathSegments().get(1);
-			count=db
-					.update(getTableName(), values, getIdColumnName()+"="
-							+ segment
-							+ (!TextUtils.isEmpty(where) ? " AND (" + where
-									+ ')' : ""), whereArgs);
-		}
+		int count=db.update(TABLE, values, where, whereArgs);
 	
 		getContext().getContentResolver().notifyChange(url, null);
 		
@@ -147,29 +124,5 @@ public class Provider extends ContentProvider {
 	
 	private boolean isCollectionUri(Uri url) {
 		return(MATCHER.match(url)==CONSTANTS);
-	}
-	
-	private String getTableName() {
-		return("constants");
-	}
-	
-	private String getIdColumnName() {
-		return(Constants._ID);
-	}
-	
-	private String getDefaultSortOrder() {
-		return(Constants.TITLE);
-	}
-	
-	private String getCollectionType() {
-		return("vnd.commonsware.cursor.dir/constant");
-	}
-	
-	private String getSingleType() {
-		return("vnd.commonsware.cursor.item/constant");
-	}
-	
-	private Uri getContentUri() {
-		return(Provider.Constants.CONTENT_URI);
 	}
 }

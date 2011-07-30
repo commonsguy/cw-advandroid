@@ -5,7 +5,7 @@
 	<application android:icon="@drawable/cw"
 							 android:label="@string/app_name">
 		<provider android:authorities="com.commonsware.android.constants.Provider"
-							android:name=".Provider" />
+							android:name=".Provider" android:exported="false"/>
 		<activity android:label="@string/app_name"
 							android:name=".ConstantsBrowser">
 			<intent-filter>

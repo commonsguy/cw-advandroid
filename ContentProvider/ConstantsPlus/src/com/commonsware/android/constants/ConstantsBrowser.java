@@ -17,11 +17,9 @@ package com.commonsware.android.constants;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -159,9 +157,10 @@ public class ConstantsBrowser extends ListActivity {
 	}
 	
 	private void processDelete(long rowId) {
-		Uri uri=ContentUris.withAppendedId(Provider.Constants.CONTENT_URI,
-																			 rowId);
-		getContentResolver().delete(uri, null, null);
+	  String[] args={String.valueOf(rowId)};
+	  
+		getContentResolver().delete(Provider.Constants.CONTENT_URI,
+		                            Provider.Constants._ID+"=?", args);
 		constantsCursor.requery();
 	}
 	
