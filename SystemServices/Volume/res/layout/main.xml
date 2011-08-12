@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res/com.commonsware.android.syssvc.volume"
-	android:stretchColumns="1"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res/com.commonsware.android.syssvc.volume"
+  android:stretchColumns="1"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
 >
-	<TableRow
-		android:paddingTop="10px"
-		android:paddingBottom="20px">
-		<TextView android:text="Alarm:" />
-		<SeekBar
-			android:id="@+id/alarm"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-		/>																			
-	</TableRow>
-	<TableRow
-		android:paddingBottom="20px">
-		<TextView android:text="Music:" />
-		<SeekBar
-			android:id="@+id/music"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-		/>																			
-	</TableRow>
-	<TableRow
-		android:paddingBottom="20px">
-		<TextView android:text="Ring:" />
-		<SeekBar
-			android:id="@+id/ring"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-		/>																			
-	</TableRow>
-	<TableRow
-		android:paddingBottom="20px">
-		<TextView android:text="System:" />
-		<SeekBar
-			android:id="@+id/system"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-		/>																			
-	</TableRow>
-	<TableRow>
-		<TextView android:text="Voice:" />
-		<SeekBar
-			android:id="@+id/voice"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-		/>																			
-	</TableRow>
+  <TableRow
+    android:paddingTop="10px"
+    android:paddingBottom="20px">
+    <TextView android:text="Alarm:" />
+    <SeekBar
+      android:id="@+id/alarm"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+    />                                      
+  </TableRow>
+  <TableRow
+    android:paddingBottom="20px">
+    <TextView android:text="Music:" />
+    <SeekBar
+      android:id="@+id/music"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+    />                                      
+  </TableRow>
+  <TableRow
+    android:paddingBottom="20px">
+    <TextView android:text="Ring:" />
+    <SeekBar
+      android:id="@+id/ring"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+    />                                      
+  </TableRow>
+  <TableRow
+    android:paddingBottom="20px">
+    <TextView android:text="System:" />
+    <SeekBar
+      android:id="@+id/system"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+    />                                      
+  </TableRow>
+  <TableRow>
+    <TextView android:text="Voice:" />
+    <SeekBar
+      android:id="@+id/voice"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+    />                                      
+  </TableRow>
 </TableLayout>

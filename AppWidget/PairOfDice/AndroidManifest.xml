@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest android:versionCode="1"
-					android:versionName="1.0"
-					package="com.commonsware.android.appwidget.dice"
-					xmlns:android="http://schemas.android.com/apk/res/android">
-					
-	<uses-sdk android:minSdkVersion="5"
-						android:targetSdkVersion="8" />
-	<supports-screens android:largeScreens="true"
-										android:normalScreens="true"
-										android:smallScreens="false" />
-	<application android:icon="@drawable/cw"
-							 android:label="@string/app_name">
-		<receiver android:icon="@drawable/cw"
-							android:label="@string/app_name"
-							android:name=".AppWidget">
-			<intent-filter>
-				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-			</intent-filter>
-			<meta-data android:name="android.appwidget.provider"
-								 android:resource="@xml/widget_provider" />
-		</receiver>
-	</application>
+          android:versionName="1.0"
+          package="com.commonsware.android.appwidget.dice"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+          
+  <uses-sdk android:minSdkVersion="5"
+            android:targetSdkVersion="8" />
+  <supports-screens android:largeScreens="true"
+                    android:normalScreens="true"
+                    android:smallScreens="false" />
+  <application android:icon="@drawable/cw"
+               android:label="@string/app_name">
+    <receiver android:icon="@drawable/cw"
+              android:label="@string/app_name"
+              android:name=".AppWidget">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+      </intent-filter>
+      <meta-data android:name="android.appwidget.provider"
+                 android:resource="@xml/widget_provider" />
+    </receiver>
+  </application>
 </manifest>

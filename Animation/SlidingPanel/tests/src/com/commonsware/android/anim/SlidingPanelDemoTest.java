@@ -3,7 +3,7 @@ package com.commonsware.android.anim;
 import android.test.ActivityInstrumentationTestCase;
 
 /**
- * This is a simple framework for a test of an Application.	See
+ * This is a simple framework for a test of an Application. See
  * {@link android.test.ApplicationTestCase ApplicationTestCase} for more information on
  * how to write and extend Application tests.
  * <p/>
@@ -14,8 +14,8 @@ import android.test.ActivityInstrumentationTestCase;
  */
 public class SlidingPanelDemoTest extends ActivityInstrumentationTestCase<SlidingPanelDemo> {
 
-		public SlidingPanelDemoTest() {
-				super("com.commonsware.android.anim", SlidingPanelDemo.class);
-		}
+    public SlidingPanelDemoTest() {
+        super("com.commonsware.android.anim", SlidingPanelDemo.class);
+    }
 
 }

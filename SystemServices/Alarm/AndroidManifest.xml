@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest android:versionCode="1"
-					android:versionName="1.0"
-					package="com.commonsware.android.syssvc.alarm"
-					xmlns:android="http://schemas.android.com/apk/res/android">
-					
-	<uses-sdk android:minSdkVersion="3"
-						android:targetSdkVersion="6" />
-	<supports-screens android:largeScreens="false"
-										android:normalScreens="true"
-										android:smallScreens="false" />
-	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-	<uses-permission android:name="android.permission.WAKE_LOCK" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<application android:icon="@drawable/cw"
-							 android:label="@string/app_name">
-		<receiver android:name=".OnBootReceiver">
-			<intent-filter>
-				<action android:name="android.intent.action.BOOT_COMPLETED" />
-			</intent-filter>
-		</receiver>
-		<receiver android:name=".OnAlarmReceiver"></receiver>
-		<service android:name=".AppService"></service>
-	</application>
+          android:versionName="1.0"
+          package="com.commonsware.android.syssvc.alarm"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+          
+  <uses-sdk android:minSdkVersion="3"
+            android:targetSdkVersion="6" />
+  <supports-screens android:largeScreens="false"
+                    android:normalScreens="true"
+                    android:smallScreens="false" />
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <application android:icon="@drawable/cw"
+               android:label="@string/app_name">
+    <receiver android:name=".OnBootReceiver">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED" />
+      </intent-filter>
+    </receiver>
+    <receiver android:name=".OnAlarmReceiver"></receiver>
+    <service android:name=".AppService"></service>
+  </application>
 </manifest>

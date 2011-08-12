@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="horizontal"
-	android:layout_width="match_parent" 
-	android:layout_height="match_parent" >
-	<View
-		android:id="@+id/bar"
-		android:background="#FFFFFF00"
-		android:layout_width="5px" 
-		android:layout_height="match_parent"
-		android:visibility="invisible"
-	/>
-	<TextView
-		android:id="@+id/label"
-		android:layout_width="match_parent" 
-		android:layout_height="match_parent"
-		android:textSize="10pt"
-		android:paddingTop="2px"
-		android:paddingBottom="2px"
-		android:paddingLeft="5px"
-	/>
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="horizontal"
+  android:layout_width="match_parent" 
+  android:layout_height="match_parent" >
+  <View
+    android:id="@+id/bar"
+    android:background="#FFFFFF00"
+    android:layout_width="5px" 
+    android:layout_height="match_parent"
+    android:visibility="invisible"
+  />
+  <TextView
+    android:id="@+id/label"
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent"
+    android:textSize="10pt"
+    android:paddingTop="2px"
+    android:paddingBottom="2px"
+    android:paddingLeft="5px"
+  />
 </LinearLayout>
