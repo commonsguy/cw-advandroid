@@ -67,14 +67,14 @@ public class NooYawk extends MapActivity {
     super.onResume();
     
     me.enableCompass();
-  }   
+  }  
   
   @Override
   public void onPause() {
     super.onPause();
     
     me.disableCompass();
-  }   
+  }  
   
   @Override
   protected boolean isRouteDisplayed() {
@@ -144,7 +144,7 @@ public class NooYawk extends MapActivity {
     protected boolean onTap(int i) {
       OverlayItem item=getItem(i);
       GeoPoint geo=item.getPoint();
-      Point pt=map.getProjection().toPixels(geo, null);     
+      Point pt=map.getProjection().toPixels(geo, null);    
       
       String message=String.format("Lat: %f | Lon: %f\nX: %d | Y %d",
                                     geo.getLatitudeE6()/1000000.0,

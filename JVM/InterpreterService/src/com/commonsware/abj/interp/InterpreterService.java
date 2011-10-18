@@ -45,7 +45,7 @@ public class InterpreterService extends IntentService {
   @Override
   protected void onHandleIntent(Intent intent) {
     String action=intent.getAction();
-    I_Interpreter interpreter=interpreters.get(action);   
+    I_Interpreter interpreter=interpreters.get(action);  
     
     if (interpreter==null) {
       try {

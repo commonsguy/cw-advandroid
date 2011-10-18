@@ -27,5 +27,3 @@ public class Jackalope extends Activity {
     finish();
   }
 }
-
-

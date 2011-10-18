@@ -34,7 +34,7 @@ public class PickDemo extends Activity {
     
     if (sdk>=5) {
       try {
-        Class clazz=Class.forName("android.provider.ContactsContract$Contacts");
+        Class<?> clazz=Class.forName("android.provider.ContactsContract$Contacts");
       
         CONTENT_URI=(Uri)clazz.getField("CONTENT_URI").get(clazz);
       }

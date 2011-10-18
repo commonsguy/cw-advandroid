@@ -4,14 +4,14 @@
   android:layout_height="match_parent"
   android:orientation="vertical"
   android:weightSum="100"
->             
+>            
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="0dip"
     android:layout_weight="40"
     android:orientation="horizontal"
     android:weightSum="100"
-  >             
+  >            
     <fragment
       class="com.commonsware.android.feedfrags.FeedsFragment"
       android:id="@+id/feeds"

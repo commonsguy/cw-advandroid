@@ -15,17 +15,13 @@
 package com.commonsware.android.feedfrags;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import org.mcsoxford.rss.RSSItem;
 
 public class FeedsActivity extends AbstractFeedsActivity
     implements FeedsFragment.OnFeedListener {
@@ -46,6 +42,18 @@ public class FeedsActivity extends AbstractFeedsActivity
     
     if (isThreePane) {
       feeds.enablePersistentSelection();
+    }
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    
+    FragmentManager fragMgr=getSupportFragmentManager();
+    ItemsFragment items=(ItemsFragment)fragMgr.findFragmentById(R.id.second_pane);
+    
+    if (items!=null) {
+      items.setOnItemListener(this);
     }
   }
   

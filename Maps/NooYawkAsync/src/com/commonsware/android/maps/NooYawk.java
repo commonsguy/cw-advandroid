@@ -68,14 +68,14 @@ public class NooYawk extends MapActivity {
     super.onResume();
     
     me.enableCompass();
-  }   
+  }  
   
   @Override
   public void onPause() {
     super.onPause();
     
     me.disableCompass();
-  }   
+  }  
   
   @Override
   protected boolean isRouteDisplayed() {
@@ -306,7 +306,7 @@ public class NooYawk extends MapActivity {
     @Override
     public void onPostExecute(Void unused) {
       map.getOverlays().add(sites);
-      map.invalidate();     
+      map.invalidate();    
     }
   }
 }

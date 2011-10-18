@@ -14,22 +14,17 @@
 
 package com.commonsware.android.listview;
 
-import android.app.ListActivity;
-import android.content.Context;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import android.app.ListActivity;
+import android.os.Bundle;
+import android.os.SystemClock;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class HeaderFooterDemo extends ListActivity {
   private static String[] items={"lorem", "ipsum", "dolor",
@@ -43,7 +38,7 @@ public class HeaderFooterDemo extends ListActivity {
                                   "pellentesque", "augue",
                                   "purus"};
   private long startTime=SystemClock.uptimeMillis();
-  private AtomicBoolean areWeDeadYet=new AtomicBoolean(false);
+  private boolean areWeDeadYet=false;
   
   @Override
   public void onCreate(Bundle icicle) {
@@ -60,7 +55,7 @@ public class HeaderFooterDemo extends ListActivity {
   public void onDestroy() {
     super.onDestroy();
     
-    areWeDeadYet.set(true);
+    areWeDeadYet=true;
   }
   
   private View buildHeader() {
@@ -95,10 +90,9 @@ public class HeaderFooterDemo extends ListActivity {
     
     txt.setText(String.valueOf(runtime)+" seconds since activity launched");
     
-    if (!areWeDeadYet.get()) {
+    if (!areWeDeadYet) {
       getListView().postDelayed(new Runnable() {
         public void run() {
-        
           updateFooter(txt);  
         }
       }, 1000);

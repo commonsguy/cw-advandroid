@@ -83,7 +83,7 @@ public class FileProvider extends ContentProvider {
                                         ParcelFileDescriptor.MODE_READ_ONLY));
     }
 
-    throw new FileNotFoundException(uri.getPath());   
+    throw new FileNotFoundException(uri.getPath());  
   }
   
   @Override

@@ -4,7 +4,7 @@
   android:layout_height="match_parent"
   android:orientation="horizontal"
   android:weightSum="100"
->             
+>            
   <fragment
     class="com.commonsware.android.feedfrags.FeedsFragment"
     android:id="@+id/feeds"

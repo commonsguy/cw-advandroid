@@ -70,14 +70,14 @@ public class NooYawk extends MapActivity {
     super.onResume();
     
     me.enableCompass();
-  }   
+  }  
   
   @Override
   public void onPause() {
     super.onPause();
     
     me.disableCompass();
-  }   
+  }  
   
   @Override
   protected boolean isRouteDisplayed() {

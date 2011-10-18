@@ -75,7 +75,7 @@ public class RateableWrapper extends AdapterWrapper {
       
       rate.setOnRatingBarChangeListener(l);
           
-      layout.addView(rate);           
+      layout.addView(rate);          
       layout.addView(guts);
       
       wrap=new ViewWrapper(layout);
@@ -85,7 +85,7 @@ public class RateableWrapper extends AdapterWrapper {
       rate.setTag(new Integer(position));
       rate.setRating(rates[position]);
         
-      row=layout;       
+      row=layout;      
     }
     else {
       wrap=(ViewWrapper)convertView.getTag();
@@ -96,5 +96,5 @@ public class RateableWrapper extends AdapterWrapper {
     }
     
     return(row);
-  }   
+  }  
 }

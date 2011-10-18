@@ -33,6 +33,7 @@ public class ContentFragment extends Fragment {
     super();
     
     urlToLoad=url;
+    setRetainInstance(true);
   }
   
   @Override

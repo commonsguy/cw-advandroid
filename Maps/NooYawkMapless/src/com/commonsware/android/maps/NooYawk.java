@@ -15,6 +15,8 @@
    
 package com.commonsware.android.maps;
 
+import java.util.ArrayList;
+import java.util.List;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -22,22 +24,14 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import com.google.android.maps.MapView.LayoutParams;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
-import java.util.ArrayList;
-import java.util.List;
 
 public class NooYawk extends MapActivity {
   private MapView map=null;
@@ -71,14 +65,14 @@ public class NooYawk extends MapActivity {
     super.onResume();
     
     me.enableCompass();
-  }   
+  }  
   
   @Override
   public void onPause() {
     super.onPause();
     
     me.disableCompass();
-  }   
+  }  
   
   @Override
   protected boolean isRouteDisplayed() {

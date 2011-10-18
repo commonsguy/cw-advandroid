@@ -14,27 +14,24 @@
 
 package com.commonsware.android.feedfrags;
 
+import org.mcsoxford.rss.RSSItem;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import org.mcsoxford.rss.RSSItem;
 
 public class ItemsActivity extends FragmentActivity
     implements ItemsFragment.OnItemListener {
   public static final String EXTRA_FEED_KEY=
     "com.commonsware.android.feedfrags.EXTRA_FEED_KEY";
+  ItemsFragment items=null;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.items);
     
-    ItemsFragment items
-      =(ItemsFragment)getSupportFragmentManager()
-                            .findFragmentById(R.id.items);
-    
-    items.setOnItemListener(this);
+    items=(ItemsFragment)getSupportFragmentManager()
+                          .findFragmentById(R.id.items);
     
     String key=getIntent().getStringExtra(EXTRA_FEED_KEY);
     
@@ -45,6 +42,13 @@ public class ItemsActivity extends FragmentActivity
                              feed.toString()));
       items.loadUrl(feed.getUrl());
     }
+  }
+  
+  @Override
+  public void onResume() {
+    super.onResume();
+    
+    items.setOnItemListener(this);
   }
   
   public void onItemSelected(RSSItem item) {

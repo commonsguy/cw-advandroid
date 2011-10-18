@@ -36,7 +36,7 @@ public class TJDetect extends ListActivity {
       for (String pkgName : proc.pkgList) {
         runningPackages.add(pkgName);
       }
-    }   
+    }  
     
     PackageManager mgr=getPackageManager();
     ArrayList<CharSequence> scary=new ArrayList<CharSequence>();

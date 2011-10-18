@@ -67,7 +67,7 @@ public class Launchalot extends ListActivity {
                 Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
     i.setComponent(name);
     
-    startActivity(i);     
+    startActivity(i);    
   }
   
   class AppAdapter extends ArrayAdapter<ResolveInfo> {

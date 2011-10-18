@@ -23,7 +23,7 @@ import android.os.SystemClock;
 import android.util.Log;
 
 public class OnBootReceiver extends BroadcastReceiver {
-  private static final int PERIOD=300000;   // 5 minutes
+  private static final int PERIOD=300000;  // 5 minutes
   
   @Override
   public void onReceive(Context context, Intent intent) {

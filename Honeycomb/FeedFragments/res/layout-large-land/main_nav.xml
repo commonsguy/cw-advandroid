@@ -4,7 +4,7 @@
   android:layout_height="match_parent"
   android:orientation="horizontal"
   android:weightSum="100"
->             
+>            
   <FrameLayout
     android:id="@+id/second_pane"
     android:layout_width="0dip"
