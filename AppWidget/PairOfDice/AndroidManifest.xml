@@ -20,5 +20,12 @@
       <meta-data android:name="android.appwidget.provider"
                  android:resource="@xml/widget_provider" />
     </receiver>
+    <activity android:name="PairOfDiceActivity"
+              android:theme="@android:style/Theme.NoDisplay">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
   </application>
 </manifest>
