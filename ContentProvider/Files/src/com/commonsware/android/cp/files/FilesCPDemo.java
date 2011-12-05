@@ -16,10 +16,10 @@ package com.commonsware.android.cp.files;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.webkit.WebView;
 
 public class FilesCPDemo extends Activity {

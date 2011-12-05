@@ -14,15 +14,13 @@
 
 package com.commonsware.android.video;
 
+import java.io.File;
 import android.app.Activity;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.View;
-import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.VideoView;
-import java.io.File;
 
 public class VideoDemo extends Activity {
   private VideoView video;

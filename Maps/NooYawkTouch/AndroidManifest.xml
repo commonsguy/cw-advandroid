@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.commonsware.android.maps"
+<manifest package="com.commonsware.android.maptouch"
           xmlns:android="http://schemas.android.com/apk/res/android">
           
   <uses-permission android:name="android.permission.INTERNET" />
@@ -18,6 +18,5 @@
   <supports-screens android:anyDensity="true"
                     android:largeScreens="true"
                     android:normalScreens="true"
-                    android:smallScreens="true"
-                    android:xlargeScreens="true" />
+                    android:smallScreens="true" />
 </manifest>

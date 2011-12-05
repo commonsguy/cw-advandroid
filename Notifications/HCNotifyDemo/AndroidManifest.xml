@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.commonsware.android.notify"
+      package="com.commonsware.android.hcnotify"
       android:versionCode="1"
       android:versionName="1.0">
     <uses-sdk android:minSdkVersion="11" />
@@ -12,7 +12,7 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <service android:name="SillyService"></service>
+    <service android:name=".SillyService"></service>
 
   </application>
 </manifest>
