@@ -73,7 +73,7 @@ abstract public class AbstractFeedsActivity extends FragmentActivity
   }
   
   private void lightsOut() {
-    final View view=findViewById(R.id.second_pane);
+    final View view=findViewById(android.R.id.content);
     
     view.setSystemUiVisibility(View.STATUS_BAR_HIDDEN);
     getActionBar().hide();

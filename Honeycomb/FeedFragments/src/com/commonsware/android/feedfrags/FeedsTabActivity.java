@@ -15,6 +15,7 @@
 package com.commonsware.android.feedfrags;
 
 import android.app.ActionBar;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -37,6 +38,15 @@ public class FeedsTabActivity extends AbstractFeedsActivity {
     bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
     bar.setDisplayHomeAsUpEnabled(true);
+    
+    int screenLayout=getResources()
+                       .getConfiguration()
+                       .screenLayout;
+    
+    if (((screenLayout & Configuration.SCREENLAYOUT_SIZE_NORMAL)==Configuration.SCREENLAYOUT_SIZE_NORMAL) 
+         || ((screenLayout & Configuration.SCREENLAYOUT_SIZE_SMALL)==Configuration.SCREENLAYOUT_SIZE_SMALL)) {
+      bar.setDisplayShowHomeEnabled(false);
+    }
   }
   
   @Override

@@ -10,11 +10,12 @@
   
   From _The Busy Coder's Guide to Advanced Android Development_
     http://commonsware.com/AdvAndroid
-*/
+ */
 
 package com.commonsware.android.feedfrags;
 
 import android.app.ActionBar;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -25,24 +26,31 @@ import android.widget.ArrayAdapter;
 
 public class FeedsNavActivity extends AbstractFeedsActivity {
   ArrayAdapter<Feed> adapter=null;
-  
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main_nav);
-    
-    adapter=new ArrayAdapter<Feed>(this, R.layout.row,
-                                   Feed.getFeeds());
-    
+
     ActionBar bar=getActionBar();
-    
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+      adapter=
+          new ArrayAdapter<Feed>(bar.getThemedContext(), R.layout.row,
+                                 Feed.getFeeds());
+    }
+    else {
+      adapter=
+          new ArrayAdapter<Feed>(this, R.layout.row, Feed.getFeeds());
+    }
+
     bar.setListNavigationCallbacks(adapter, new NavListener());
     bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
     bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE,
                           ActionBar.DISPLAY_SHOW_TITLE);
     bar.setDisplayHomeAsUpEnabled(true);
   }
-  
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     new MenuInflater(this).inflate(R.menu.feeds_nav_options, menu);
@@ -55,43 +63,45 @@ public class FeedsNavActivity extends AbstractFeedsActivity {
     switch (item.getItemId()) {
       case android.R.id.home:
         finish();
-    
+
         return(true);
     }
-    
+
     return(super.onOptionsItemSelected(item));
   }
-  
+
   private void removeFragments(FragmentManager fragMgr,
                                FragmentTransaction xaction) {
-    ItemsFragment items=(ItemsFragment)fragMgr.findFragmentById(R.id.second_pane);
-      
-    if (items!=null) {
+    ItemsFragment items=
+        (ItemsFragment)fragMgr.findFragmentById(R.id.second_pane);
+
+    if (items != null) {
       xaction.remove(items);
-      
+
       ContentFragment content=
-        (ContentFragment)fragMgr.findFragmentById(R.id.third_pane);
-        
-      if (content!=null && !content.isRemoving()) {
+          (ContentFragment)fragMgr.findFragmentById(R.id.third_pane);
+
+      if (content != null && !content.isRemoving()) {
         xaction.remove(content);
         fragMgr.popBackStack();
       }
     }
   }
-  
+
   public void addNewFeed(Feed feed) {
     adapter.add(feed);
   }
-  
+
   private class NavListener implements ActionBar.OnNavigationListener {
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+    public boolean onNavigationItemSelected(int itemPosition,
+                                            long itemId) {
       FragmentManager fragMgr=getSupportFragmentManager();
       FragmentTransaction xaction=fragMgr.beginTransaction();
-      
+
       addItems(xaction, Feed.getFeeds().get(itemPosition));
       removeFragments(fragMgr, xaction);
       xaction.commit();
-      
+
       return(true);
     }
   }
