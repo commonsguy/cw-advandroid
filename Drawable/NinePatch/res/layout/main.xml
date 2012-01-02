@@ -46,8 +46,8 @@
     android:layout_height="match_parent"
     >
     <Button android:id="@+id/resize"
-      android:layout_width="64px"
-      android:layout_height="64px"
+      android:layout_width="96px"
+      android:layout_height="96px"
       android:text="Hi!"
       android:textSize="5pt"
       android:background="@drawable/button"

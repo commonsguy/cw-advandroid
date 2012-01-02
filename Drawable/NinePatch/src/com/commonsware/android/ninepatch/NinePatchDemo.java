@@ -36,8 +36,8 @@ public class NinePatchDemo extends Activity {
     horizontal=(SeekBar)findViewById(R.id.horizontal);  
     vertical=(SeekBar)findViewById(R.id.vertical);
     
-    horizontal.setMax(176); // 240 less 64 starting size
-    vertical.setMax(176);  // keep it square @ max
+    horizontal.setMax(144); // 240 less 96 starting size
+    vertical.setMax(144);  // keep it square @ max
     
     horizontal.setOnSeekBarChangeListener(h);
     vertical.setOnSeekBarChangeListener(v);
