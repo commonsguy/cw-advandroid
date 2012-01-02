@@ -34,21 +34,18 @@ public class FileProvider extends ContentProvider {
   private static final HashMap<String, String> MIME_TYPES=new HashMap<String, String>();
   
   static {
-    MIME_TYPES.put(".html", "text/html");
-    MIME_TYPES.put(".js", "application/javascript");
+    MIME_TYPES.put(".pdf", "application/pdf");
   }
 
   @Override
   public boolean onCreate() {
-    File page=new File(getContext().getFilesDir(), "geoweb2.html");
+    File f=new File(getContext().getFilesDir(), "test.pdf");
     
-    if (!page.exists()) {
+    if (!f.exists()) {
       AssetManager assets=getContext().getResources().getAssets();
     
       try {
-        copy(assets.open("geoweb2.html"), page);
-        copy(assets.open("geoweb.js"),
-             new File(getContext().getFilesDir(), "geoweb.js"));
+        copy(assets.open("test.pdf"), f);
       }
       catch (IOException e) {
         Log.e("FileProvider", "Exception copying from assets", e);
