@@ -17,7 +17,7 @@ package com.commonsware.android.picture;
 import java.io.File;
 import java.io.FileOutputStream;
 import android.app.Activity;
-import android.graphics.PixelFormat;
+import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -45,27 +45,26 @@ public class PictureDemo extends Activity {
     preview=(SurfaceView)findViewById(R.id.preview);
     previewHolder=preview.getHolder();
     previewHolder.addCallback(surfaceCallback);
-    previewHolder
-        .setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+    previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
   }
 
   @Override
   public void onResume() {
     super.onResume();
 
-    if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.GINGERBREAD) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
       Camera.CameraInfo info=new Camera.CameraInfo();
-      
-      for (int i=0;i<Camera.getNumberOfCameras();i++) {
+
+      for (int i=0; i < Camera.getNumberOfCameras(); i++) {
         Camera.getCameraInfo(i, info);
-        
-        if (info.facing==Camera.CameraInfo.CAMERA_FACING_FRONT) {
+
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
           camera=Camera.open(i);
         }
       }
     }
 
-    if (camera==null) {
+    if (camera == null) {
       camera=Camera.open();
     }
   }
@@ -86,38 +85,58 @@ public class PictureDemo extends Activity {
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     new MenuInflater(this).inflate(R.menu.options, menu);
-    
+
     return(super.onCreateOptionsMenu(menu));
   }
-  
+
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId()==R.id.camera) {
+    if (item.getItemId() == R.id.camera) {
       if (inPreview) {
         camera.takePicture(null, null, photoCallback);
         inPreview=false;
       }
     }
-    
+
     return(super.onOptionsItemSelected(item));
   }
 
-  private Camera.Size getBestPreviewSize(int width,
-      int height, Camera.Parameters parameters) {
+  private Camera.Size getBestPreviewSize(int width, int height,
+                                         Camera.Parameters parameters) {
     Camera.Size result=null;
 
     for (Camera.Size size : parameters.getSupportedPreviewSizes()) {
-      if (size.width<=width && size.height<=height) {
-        if (result==null) {
+      if (size.width <= width && size.height <= height) {
+        if (result == null) {
           result=size;
         }
         else {
-          int resultArea=result.width*result.height;
-          int newArea=size.width*size.height;
+          int resultArea=result.width * result.height;
+          int newArea=size.width * size.height;
 
-          if (newArea>resultArea) {
+          if (newArea > resultArea) {
             result=size;
           }
+        }
+      }
+    }
+
+    return(result);
+  }
+
+  private Camera.Size getSmallestPictureSize(Camera.Parameters parameters) {
+    Camera.Size result=null;
+
+    for (Camera.Size size : parameters.getSupportedPictureSizes()) {
+      if (result == null) {
+        result=size;
+      }
+      else {
+        int resultArea=result.width * result.height;
+        int newArea=size.width * size.height;
+
+        if (newArea < resultArea) {
+          result=size;
         }
       }
     }
@@ -132,21 +151,22 @@ public class PictureDemo extends Activity {
       }
       catch (Throwable t) {
         Log.e("PictureDemo-surfaceCallback",
-            "Exception in setPreviewDisplay()", t);
+              "Exception in setPreviewDisplay()", t);
         Toast.makeText(PictureDemo.this, t.getMessage(),
-            Toast.LENGTH_LONG).show();
+                       Toast.LENGTH_LONG).show();
       }
     }
 
-    public void surfaceChanged(SurfaceHolder holder,
-        int format, int width, int height) {
+    public void surfaceChanged(SurfaceHolder holder, int format,
+                               int width, int height) {
       Camera.Parameters parameters=camera.getParameters();
-      Camera.Size size=getBestPreviewSize(width, height,
-          parameters);
+      Camera.Size size=getBestPreviewSize(width, height, parameters);
+      Camera.Size pictureSize=getSmallestPictureSize(parameters);
 
-      if (size!=null) {
+      if (size != null && pictureSize != null) {
         parameters.setPreviewSize(size.width, size.height);
-        parameters.setPictureFormat(PixelFormat.JPEG);
+        parameters.setPictureSize(pictureSize.width, pictureSize.height);
+        parameters.setPictureFormat(ImageFormat.JPEG);
 
         camera.setParameters(parameters);
         camera.startPreview();
@@ -167,27 +187,25 @@ public class PictureDemo extends Activity {
     }
   };
 
-  class SavePhotoTask extends
-      AsyncTask<byte[], String, String> {
+  class SavePhotoTask extends AsyncTask<byte[], String, String> {
     @Override
     protected String doInBackground(byte[]... jpeg) {
-      File photo=new File(Environment
-          .getExternalStorageDirectory(), "photo.jpg");
+      File photo=
+          new File(Environment.getExternalStorageDirectory(),
+                   "photo.jpg");
 
       if (photo.exists()) {
         photo.delete();
       }
 
       try {
-        FileOutputStream fos=new FileOutputStream(photo
-            .getPath());
+        FileOutputStream fos=new FileOutputStream(photo.getPath());
 
         fos.write(jpeg[0]);
         fos.close();
       }
       catch (java.io.IOException e) {
-        Log.e("PictureDemo", "Exception in photoCallback",
-            e);
+        Log.e("PictureDemo", "Exception in photoCallback", e);
       }
 
       return(null);
