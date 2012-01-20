@@ -19,7 +19,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 public class NetworkReceiver extends BroadcastReceiver {
   @Override
@@ -28,7 +27,7 @@ public class NetworkReceiver extends BroadcastReceiver {
         PreferenceManager.getDefaultSharedPreferences(context);
 
     if (SyncService.isSyncNeeded(context, prefs)) {
-      WakefulIntentService.sendWakefulWork(context, SyncService.class);
+      context.startService(new Intent(context, SyncService.class));
     }
   }
 }

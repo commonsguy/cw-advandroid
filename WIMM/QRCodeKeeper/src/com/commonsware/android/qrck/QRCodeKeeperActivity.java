@@ -30,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import com.commonsware.cwac.wakeful.WakefulIntentService;
 import com.wimm.framework.app.AlertDialog;
 import com.wimm.framework.app.LauncherActivity;
 import com.wimm.framework.service.NetworkService;
@@ -65,7 +64,7 @@ public class QRCodeKeeperActivity extends LauncherActivity implements
     
     if (SyncService.isSyncNeeded(this, prefs)
         && network.isNetworkAvailable()) {
-      WakefulIntentService.sendWakefulWork(this, SyncService.class);
+      startService(new Intent(this, SyncService.class));
     }
     else {
       network.requestNetworkConnection();

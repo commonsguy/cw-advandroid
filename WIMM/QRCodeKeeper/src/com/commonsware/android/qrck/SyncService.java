@@ -14,14 +14,19 @@
 
 package com.commonsware.android.qrck;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
+import android.app.IntentService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -29,11 +34,11 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import com.commonsware.cwac.wakeful.WakefulIntentService;
 import com.wimm.framework.service.NetworkService;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SyncService extends WakefulIntentService {
+public class SyncService extends IntentService {
   static final String ACTION_SYNC_STATUS=
       "com.commonsware.android.qrck.SYNC_STATUS";
   static final String KEY_STATUS="KEY_STATUS";
@@ -85,6 +90,23 @@ public class SyncService extends WakefulIntentService {
     }
   }
 
+  static JSONObject load(Context ctxt, String fn) throws JSONException,
+                                                 IOException {
+    FileInputStream is=ctxt.openFileInput(fn);
+    InputStreamReader reader=new InputStreamReader(is);
+    BufferedReader in=new BufferedReader(reader);
+    StringBuilder buf=new StringBuilder();
+    String str;
+
+    while ((str=in.readLine()) != null) {
+      buf.append(str);
+    }
+
+    in.close();
+
+    return(new JSONObject(buf.toString()));
+  }
+
   public SyncService() {
     super(TAG);
   }
@@ -111,7 +133,7 @@ public class SyncService extends WakefulIntentService {
 
   @SuppressWarnings("unchecked")
   @Override
-  protected void doWakefulWork(Intent intent) {
+  protected void onHandleIntent(Intent intent) {
     ArrayList<String> visited=new ArrayList<String>();
 
     if (network.isNetworkAvailable()) {
@@ -126,7 +148,7 @@ public class SyncService extends WakefulIntentService {
 
         fos.getChannel().transferFrom(rbc, 0, 1 << 16);
 
-        JSONObject json=JSONLoadTask.load(this, SYNC_LOCAL_FILE);
+        JSONObject json=load(this, SYNC_LOCAL_FILE);
 
         for (Iterator<String> i=json.keys(); i.hasNext();) {
           String title=i.next();

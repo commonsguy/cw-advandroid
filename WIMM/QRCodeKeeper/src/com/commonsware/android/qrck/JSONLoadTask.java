@@ -14,37 +14,15 @@
 
 package com.commonsware.android.qrck;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import android.content.Context;
 import android.os.AsyncTask;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class JSONLoadTask extends AsyncTask<String, Void, JSONObject> {
   private Context ctxt=null;
   private Listener listener=null;
   private Exception ex=null;
-
-  static JSONObject load(Context ctxt, String fn) throws JSONException,
-                                                 IOException {
-    FileInputStream is=ctxt.openFileInput(fn);
-    InputStreamReader reader=new InputStreamReader(is);
-    BufferedReader in=new BufferedReader(reader);
-    StringBuilder buf=new StringBuilder();
-    String str;
-
-    while ((str=in.readLine()) != null) {
-      buf.append(str);
-    }
-
-    in.close();
-
-    return(new JSONObject(buf.toString()));
-  }
 
   public JSONLoadTask(Context ctxt, Listener listener) {
     this.ctxt=ctxt;
@@ -62,7 +40,7 @@ public class JSONLoadTask extends AsyncTask<String, Void, JSONObject> {
       String fn=path[0];
 
       if (new File(ctxt.getFilesDir(), fn).exists()) {
-        json=load(ctxt, path[0]);
+        json=SyncService.load(ctxt, path[0]);
       }
     }
     catch (Exception ex) {
