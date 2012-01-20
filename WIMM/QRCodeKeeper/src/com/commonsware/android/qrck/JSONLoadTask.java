@@ -40,7 +40,7 @@ public class JSONLoadTask extends AsyncTask<String, Void, JSONObject> {
       String fn=path[0];
 
       if (new File(ctxt.getFilesDir(), fn).exists()) {
-        json=SyncService.load(ctxt, path[0]);
+        json=AppUtils.load(ctxt, path[0]);
       }
     }
     catch (Exception ex) {
@@ -59,7 +59,7 @@ public class JSONLoadTask extends AsyncTask<String, Void, JSONObject> {
 
       if (ex != null) {
         listener.handleError(ex);
-        SyncService.cleanup(ctxt);
+        AppUtils.cleanup(ctxt);
       }
     }
   }

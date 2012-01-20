@@ -14,12 +14,8 @@
 
 package com.commonsware.android.qrck;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -35,7 +31,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import com.wimm.framework.service.NetworkService;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SyncService extends IntentService {
@@ -63,48 +58,6 @@ public class SyncService extends IntentService {
     long lastSyncTime=prefs.getLong(KEY_SYNC_TIME, 0);
 
     return(lastSyncTime == 0 || (now - lastSyncTime) >= SYNC_PERIOD || !iCanHasData(ctxt));
-  }
-
-  static void persist(final SharedPreferences.Editor editor) {
-    new Thread() {
-      public void run() {
-        editor.commit();
-      }
-    }.run();
-  }
-
-  static void cleanup(Context ctxt) {
-    try {
-      String[] children=ctxt.getFilesDir().list();
-
-      if (children != null) {
-        for (int i=0; i < children.length; i++) {
-          String filename=children[i];
-          new File(ctxt.getFilesDir(), filename).delete();
-        }
-      }
-    }
-    catch (Exception ex) {
-      // TODO: let the UI know about this via broadcast
-      Log.e(TAG, "Exception cleaning up from past exception", ex);
-    }
-  }
-
-  static JSONObject load(Context ctxt, String fn) throws JSONException,
-                                                 IOException {
-    FileInputStream is=ctxt.openFileInput(fn);
-    InputStreamReader reader=new InputStreamReader(is);
-    BufferedReader in=new BufferedReader(reader);
-    StringBuilder buf=new StringBuilder();
-    String str;
-
-    while ((str=in.readLine()) != null) {
-      buf.append(str);
-    }
-
-    in.close();
-
-    return(new JSONObject(buf.toString()));
   }
 
   public SyncService() {
@@ -148,7 +101,7 @@ public class SyncService extends IntentService {
 
         fos.getChannel().transferFrom(rbc, 0, 1 << 16);
 
-        JSONObject json=load(this, SYNC_LOCAL_FILE);
+        JSONObject json=AppUtils.load(this, SYNC_LOCAL_FILE);
 
         for (Iterator<String> i=json.keys(); i.hasNext();) {
           String title=i.next();
@@ -184,9 +137,10 @@ public class SyncService extends IntentService {
       catch (Exception ex) {
         // TODO: let the UI know about this via broadcast
         Log.e(TAG, "Exception syncing", ex);
-        cleanup(this);
+        AppUtils.cleanup(this);
       }
       finally {
+
         inProgress.set(false);
         broadcastStatus();
         syncCompleted();
@@ -204,8 +158,8 @@ public class SyncService extends IntentService {
   }
 
   private void syncCompleted() {
-    persist(prefs.edit().putLong(KEY_SYNC_TIME,
-                                 System.currentTimeMillis()));
+    AppUtils.persist(prefs.edit().putLong(KEY_SYNC_TIME,
+                                          System.currentTimeMillis()));
   }
 
   private final BroadcastReceiver takedownReceiver=
