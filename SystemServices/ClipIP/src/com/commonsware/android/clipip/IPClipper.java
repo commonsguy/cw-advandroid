@@ -14,15 +14,15 @@
 
 package com.commonsware.android.clipip;
 
-import android.app.Activity;
-import android.content.ClipboardManager;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import android.app.Activity;
+import android.os.Bundle;
+import android.text.ClipboardManager;
+import android.util.Log;
+import android.widget.Toast;
 
 public class IPClipper extends Activity {
   @Override
