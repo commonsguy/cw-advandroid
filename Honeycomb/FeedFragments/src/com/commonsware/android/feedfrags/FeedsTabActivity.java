@@ -10,7 +10,7 @@
   
   From _The Busy Coder's Guide to Advanced Android Development_
     http://commonsware.com/AdvAndroid
-*/
+ */
 
 package com.commonsware.android.feedfrags;
 
@@ -28,27 +28,29 @@ public class FeedsTabActivity extends AbstractFeedsActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main_nav);
-    
+
     for (final Feed feed : Feed.getFeeds()) {
       addNewFeed(feed);
     }
-    
+
     ActionBar bar=getActionBar();
-    
+
     bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
     bar.setDisplayHomeAsUpEnabled(true);
-    
-    int screenLayout=getResources()
-                       .getConfiguration()
-                       .screenLayout;
-    
-    if (((screenLayout & Configuration.SCREENLAYOUT_SIZE_NORMAL)==Configuration.SCREENLAYOUT_SIZE_NORMAL) 
-         || ((screenLayout & Configuration.SCREENLAYOUT_SIZE_SMALL)==Configuration.SCREENLAYOUT_SIZE_SMALL)) {
+
+    int screenLayout=getResources().getConfiguration().screenLayout;
+
+    if (((screenLayout & Configuration.SCREENLAYOUT_SIZE_NORMAL) == Configuration.SCREENLAYOUT_SIZE_NORMAL)
+        || ((screenLayout & Configuration.SCREENLAYOUT_SIZE_SMALL) == Configuration.SCREENLAYOUT_SIZE_SMALL)) {
       bar.setDisplayShowHomeEnabled(false);
     }
+
+    if (savedInstanceState != null) {
+      cleanUpFragments();
+    }
   }
-  
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     new MenuInflater(this).inflate(R.menu.feeds_nav_options, menu);
@@ -61,62 +63,65 @@ public class FeedsTabActivity extends AbstractFeedsActivity {
     switch (item.getItemId()) {
       case android.R.id.home:
         finish();
-    
+
         return(true);
     }
-    
+
     return(super.onOptionsItemSelected(item));
   }
-  
+
   private void removeFragments(FragmentManager fragMgr,
                                FragmentTransaction xaction) {
-    ItemsFragment items=(ItemsFragment)fragMgr.findFragmentById(R.id.second_pane);
-      
-    if (items!=null) {
+    ItemsFragment items=
+        (ItemsFragment)fragMgr.findFragmentById(R.id.second_pane);
+
+    if (items != null) {
       xaction.remove(items);
-      
+
       ContentFragment content=
-        (ContentFragment)fragMgr.findFragmentById(R.id.third_pane);
-        
-      if (content!=null && !content.isRemoving()) {
+          (ContentFragment)fragMgr.findFragmentById(R.id.third_pane);
+
+      if (content != null && !content.isRemoving()) {
         xaction.remove(content);
         fragMgr.popBackStack();
       }
     }
   }
   
+  private void cleanUpFragments() {
+    FragmentManager fragMgr=getSupportFragmentManager();
+    FragmentTransaction xaction=fragMgr.beginTransaction();
+
+    removeFragments(fragMgr, xaction);
+    xaction.commit();
+  }
+
   public void addNewFeed(final Feed feed) {
     ActionBar bar=getActionBar();
-    
-    bar.addTab(bar
-                .newTab()
-                .setText(feed.toString())
-                .setTabListener(new TabListener(feed)));
+
+    bar.addTab(bar.newTab().setText(feed.toString())
+                  .setTabListener(new TabListener(feed)));
   }
-  
+
   private class TabListener implements ActionBar.TabListener {
     Feed feed=null;
-    
+
     TabListener(Feed feed) {
       this.feed=feed;
     }
-    
+
     public void onTabSelected(ActionBar.Tab tab,
                               android.app.FragmentTransaction unused) {
       FragmentManager fragMgr=getSupportFragmentManager();
       FragmentTransaction xaction=fragMgr.beginTransaction();
-      
+
       addItems(xaction, feed);
       xaction.commit();
     }
 
     public void onTabUnselected(ActionBar.Tab tab,
                                 android.app.FragmentTransaction unused) {
-      FragmentManager fragMgr=getSupportFragmentManager();
-      FragmentTransaction xaction=fragMgr.beginTransaction();
-      
-      removeFragments(fragMgr, xaction);
-      xaction.commit();
+      cleanUpFragments();
     }
 
     public void onTabReselected(ActionBar.Tab tab,
