@@ -54,25 +54,26 @@ public class QRCodeKeeperActivity extends LauncherActivity implements
     tray.setCanLoop(true);
 
     NetworkService network=new NetworkService(this);
-    
+
     if (SyncService.iCanHasData(this)) {
       loadEntries();
     }
     else {
       noCanDo=true;
     }
-    
-    if (SyncService.isSyncNeeded(this, prefs)
-        && network.isNetworkAvailable()) {
-      startService(new Intent(this, SyncService.class));
+
+    if (SyncService.isSyncNeeded(this, prefs)) {
+      if (network.isNetworkAvailable()) {
+        startService(new Intent(this, SyncService.class));
+      }
+      else {
+        network.requestNetworkConnection();
+      }
     }
-    else {
-      network.requestNetworkConnection();
-    }
-    
+
     if (noCanDo) {
       AlertDialog dlg=new AlertDialog(this);
-      
+
       dlg.setButton(getText(R.string.close), this);
       dlg.setMessage(getText(R.string.no_can_do));
       dlg.show();
@@ -82,7 +83,7 @@ public class QRCodeKeeperActivity extends LauncherActivity implements
   @Override
   public void onResume() {
     super.onResume();
-    
+
     if (!noCanDo) {
       registerReceiver(statusReceiver,
                        new IntentFilter(SyncService.ACTION_SYNC_STATUS));
@@ -94,7 +95,7 @@ public class QRCodeKeeperActivity extends LauncherActivity implements
     if (!noCanDo) {
       unregisterReceiver(statusReceiver);
     }
-    
+
     super.onPause();
   }
 
@@ -127,16 +128,16 @@ public class QRCodeKeeperActivity extends LauncherActivity implements
 
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    finish();    
+    finish();
   }
 
   private void loadEntries() {
-    new JSONLoadTask(this, this).execute("codes.json");
+    new JSONLoadTask(this, this).execute(SyncService.SYNC_LOCAL_FILE);
   }
-  
+
   private void goBlooey(Exception ex) {
     AlertDialog dlg=new AlertDialog(this);
-    
+
     dlg.setButton(getText(R.string.close), this);
     dlg.setMessage(ex.getMessage());
     dlg.show();
@@ -170,7 +171,6 @@ public class QRCodeKeeperActivity extends LauncherActivity implements
             new File(getFilesDir(), getItem(position).getFilename());
 
         new ImageLoadTask(qrCode).execute(image.getAbsolutePath());
-        // qrCode.setImageBitmap(BitmapFactory.decodeFile(image.getAbsolutePath()));
       }
       catch (Exception ex) {
         Log.e("QRCodeKeeper", "Exception interpreting JSON", ex);

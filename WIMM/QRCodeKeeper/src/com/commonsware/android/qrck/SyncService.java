@@ -40,7 +40,7 @@ public class SyncService extends IntentService {
   private static final String TAG="QRCodeKeeper-SyncService";
   private static final String SYNC_URL=
       "http://misc.commonsware.com/codes.json";
-  private static final String SYNC_LOCAL_FILE="codes.json";
+  static final String SYNC_LOCAL_FILE="codes.json";
   private static final String KEY_SYNC_TIME="sync_time";
   private static final long SYNC_PERIOD=900000L; // 15 min
   private AtomicBoolean inProgress=new AtomicBoolean(false);
@@ -140,7 +140,6 @@ public class SyncService extends IntentService {
         AppUtils.cleanup(this);
       }
       finally {
-
         inProgress.set(false);
         broadcastStatus();
         syncCompleted();

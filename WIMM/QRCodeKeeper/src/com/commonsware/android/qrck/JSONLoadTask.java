@@ -29,9 +29,6 @@ public class JSONLoadTask extends AsyncTask<String, Void, JSONObject> {
     this.listener=listener;
   }
 
-  /**
-   * Runs on a worker thread, loading in our data.
-   */
   @Override
   public JSONObject doInBackground(String... path) {
     JSONObject json=null;
@@ -66,7 +63,6 @@ public class JSONLoadTask extends AsyncTask<String, Void, JSONObject> {
 
   public interface Listener {
     void handleResult(JSONObject json);
-
     void handleError(Exception ex);
   }
 }

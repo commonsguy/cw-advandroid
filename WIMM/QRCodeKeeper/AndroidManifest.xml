@@ -14,12 +14,11 @@
 		android:label="@string/app_name">
 		<uses-library
 			android:name="com.wimm.framework"
-			android:required="false"/>
+			android:required="true"/>
 
 		<activity
 			android:name=".QRCodeKeeperActivity"
-			android:label="@string/app_name"
-			android:theme="@android:style/Theme.Light">
+			android:label="@string/app_name">
 			<meta-data
 				android:name="com.wimm.app.peekview"
 				android:resource="@layout/peekview"/>

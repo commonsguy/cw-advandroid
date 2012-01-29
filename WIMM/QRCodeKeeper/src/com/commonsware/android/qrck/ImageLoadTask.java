@@ -58,12 +58,6 @@ public class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
       
       if (ex!=null) {
         Log.e("ImageLoadTask", "Exception loading image", ex);
-//        listener.handleError(ex);
       }
-  }
-  
-  public interface Listener {
-    void handleResult(Bitmap bitmap);
-    void handleError(Exception ex);
   }
 }
