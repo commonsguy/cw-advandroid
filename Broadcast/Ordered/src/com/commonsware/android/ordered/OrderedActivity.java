@@ -48,8 +48,6 @@ public class OrderedActivity extends Activity {
     
     Intent i=new Intent(this, NoticeService.class);
     
-    i.setPackage("com.commonsware.android.ordered");
-    
     pi=PendingIntent.getService(this, 0, i, 0);
     
     cancelAlarm(null);
