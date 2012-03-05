@@ -10,23 +10,21 @@
   
   From _The Busy Coder's Guide to Advanced Android Development_
     http://commonsware.com/AdvAndroid
-*/
+ */
 
 package com.commonsware.android.cpproxy.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
-import android.content.pm.PackageManager;
 import android.database.CrossProcessCursor;
 import android.database.Cursor;
 import android.database.CursorWindow;
 import android.database.CursorWrapper;
 import android.net.Uri;
-import android.os.Binder;
 
 public abstract class AbstractCPProxy extends ContentProvider {
   abstract protected Uri convertUri(Uri uri);
-  
+
   public AbstractCPProxy() {
     super();
   }
@@ -38,40 +36,32 @@ public abstract class AbstractCPProxy extends ContentProvider {
 
   @Override
   public Cursor query(Uri uri, String[] projection, String selection,
-                       String[] selectionArgs, String sortOrder) {
-                        checkCaller();
-                        
-                        Cursor result=
-                            getContext().getContentResolver().query(convertUri(uri),
-                                                                    projection, selection,
-                                                                    selectionArgs,
-                                                                    sortOrder);
-                      
-                        return(new CrossProcessCursorWrapper(result));
-                      }
+                      String[] selectionArgs, String sortOrder) {
+    Cursor result=
+        getContext().getContentResolver().query(convertUri(uri),
+                                                projection, selection,
+                                                selectionArgs,
+                                                sortOrder);
+
+    return(new CrossProcessCursorWrapper(result));
+  }
 
   @Override
   public Uri insert(Uri uri, ContentValues values) {
-    checkCaller();
-    
     return(getContext().getContentResolver().insert(convertUri(uri),
                                                     values));
   }
 
   @Override
   public int update(Uri uri, ContentValues values, String selection,
-                        String[] selectionArgs) {
-                          checkCaller();
-                          
-                          return(getContext().getContentResolver().update(convertUri(uri),
-                                                                          values, selection,
-                                                                          selectionArgs));
-                        }
+                    String[] selectionArgs) {
+    return(getContext().getContentResolver().update(convertUri(uri),
+                                                    values, selection,
+                                                    selectionArgs));
+  }
 
   @Override
   public int delete(Uri uri, String selection, String[] selectionArgs) {
-    checkCaller();
-    
     return(getContext().getContentResolver().delete(convertUri(uri),
                                                     selection,
                                                     selectionArgs));
@@ -79,20 +69,8 @@ public abstract class AbstractCPProxy extends ContentProvider {
 
   @Override
   public String getType(Uri uri) {
-    checkCaller();
-    
     return(getContext().getContentResolver().getType(convertUri(uri)));
   }
-
-  private void checkCaller() {
-    int uid=Binder.getCallingUid();
-    PackageManager pm=getContext().getPackageManager();
-  
-    if (pm.checkSignatures(uid, android.os.Process.myUid()) < 0) {
-      throw new RuntimeException("Illegal caller");
-    }
-  }
-
 
   // following from
   // http://stackoverflow.com/a/5243978/115145
@@ -151,5 +129,4 @@ public abstract class AbstractCPProxy extends ContentProvider {
       return true;
     }
   }
-
 }
