@@ -78,5 +78,6 @@ public class ActionModeHelper
   public void onDestroyActionMode(ActionMode mode) {
     activeMode=null;
     modeView.clearChoices();
+    modeView.requestLayout();
   }
 }
