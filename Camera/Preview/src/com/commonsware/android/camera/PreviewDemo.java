@@ -27,10 +27,12 @@ public class PreviewDemo extends Activity {
   private SurfaceHolder previewHolder=null;
   private Camera camera=null;
   private boolean inPreview=false;
+  private boolean previewConfigured=false;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    
     setContentView(R.layout.main);
     
     preview=(SurfaceView)findViewById(R.id.preview);
@@ -44,6 +46,8 @@ public class PreviewDemo extends Activity {
     super.onResume();
     
     camera=Camera.open();
+    
+    startPreview();
   }
     
   @Override
@@ -82,8 +86,8 @@ public class PreviewDemo extends Activity {
     return(result);
   }
   
-  SurfaceHolder.Callback surfaceCallback=new SurfaceHolder.Callback() {
-    public void surfaceCreated(SurfaceHolder holder) {
+  private void initPreview(int width, int height) {
+    if (camera!=null && previewHolder.getSurface()!=null) {
       try {
         camera.setPreviewDisplay(previewHolder);
       }
@@ -94,21 +98,38 @@ public class PreviewDemo extends Activity {
           .makeText(PreviewDemo.this, t.getMessage(), Toast.LENGTH_LONG)
           .show();
       }
+
+      if (!previewConfigured) {
+        Camera.Parameters parameters=camera.getParameters();
+        Camera.Size size=getBestPreviewSize(width, height,
+                                            parameters);
+        
+        if (size!=null) {
+          parameters.setPreviewSize(size.width, size.height);
+          camera.setParameters(parameters);
+          previewConfigured=true;
+        }
+      }
+    }
+  }
+  
+  private void startPreview() {
+    if (previewConfigured && camera!=null) {
+      camera.startPreview();
+      inPreview=true;
+    }
+  }
+  
+  SurfaceHolder.Callback surfaceCallback=new SurfaceHolder.Callback() {
+    public void surfaceCreated(SurfaceHolder holder) {
+      // no-op -- wait until surfaceChanged()
     }
     
     public void surfaceChanged(SurfaceHolder holder,
                                int format, int width,
                                int height) {
-      Camera.Parameters parameters=camera.getParameters();
-      Camera.Size size=getBestPreviewSize(width, height,
-                                          parameters);
-      
-      if (size!=null) {
-        parameters.setPreviewSize(size.width, size.height);
-        camera.setParameters(parameters);
-        camera.startPreview();
-        inPreview=true;
-      }
+      initPreview(width, height);
+      startPreview();
     }
     
     public void surfaceDestroyed(SurfaceHolder holder) {
