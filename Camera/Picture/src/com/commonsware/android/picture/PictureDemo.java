@@ -36,6 +36,7 @@ public class PictureDemo extends Activity {
   private SurfaceHolder previewHolder=null;
   private Camera camera=null;
   private boolean inPreview=false;
+  private boolean cameraConfigured=false;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,8 @@ public class PictureDemo extends Activity {
     if (camera == null) {
       camera=Camera.open();
     }
+
+    startPreview();
   }
 
   @Override
@@ -144,34 +147,51 @@ public class PictureDemo extends Activity {
     return(result);
   }
 
-  SurfaceHolder.Callback surfaceCallback=new SurfaceHolder.Callback() {
-    public void surfaceCreated(SurfaceHolder holder) {
+  private void initPreview(int width, int height) {
+    if (camera != null && previewHolder.getSurface() != null) {
       try {
         camera.setPreviewDisplay(previewHolder);
       }
       catch (Throwable t) {
-        Log.e("PictureDemo-surfaceCallback",
+        Log.e("PreviewDemo-surfaceCallback",
               "Exception in setPreviewDisplay()", t);
         Toast.makeText(PictureDemo.this, t.getMessage(),
                        Toast.LENGTH_LONG).show();
       }
+
+      if (!cameraConfigured) {
+        Camera.Parameters parameters=camera.getParameters();
+        Camera.Size size=getBestPreviewSize(width, height, parameters);
+        Camera.Size pictureSize=getSmallestPictureSize(parameters);
+
+        if (size != null && pictureSize != null) {
+          parameters.setPreviewSize(size.width, size.height);
+          parameters.setPictureSize(pictureSize.width,
+                                    pictureSize.height);
+          parameters.setPictureFormat(ImageFormat.JPEG);
+          camera.setParameters(parameters);
+          cameraConfigured=true;
+        }
+      }
+    }
+  }
+
+  private void startPreview() {
+    if (cameraConfigured && camera != null) {
+      camera.startPreview();
+      inPreview=true;
+    }
+  }
+
+  SurfaceHolder.Callback surfaceCallback=new SurfaceHolder.Callback() {
+    public void surfaceCreated(SurfaceHolder holder) {
+      // no-op -- wait until surfaceChanged()
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format,
                                int width, int height) {
-      Camera.Parameters parameters=camera.getParameters();
-      Camera.Size size=getBestPreviewSize(width, height, parameters);
-      Camera.Size pictureSize=getSmallestPictureSize(parameters);
-
-      if (size != null && pictureSize != null) {
-        parameters.setPreviewSize(size.width, size.height);
-        parameters.setPictureSize(pictureSize.width, pictureSize.height);
-        parameters.setPictureFormat(ImageFormat.JPEG);
-
-        camera.setParameters(parameters);
-        camera.startPreview();
-        inPreview=true;
-      }
+      initPreview(width, height);
+      startPreview();
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {

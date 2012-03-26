@@ -27,7 +27,7 @@ public class PreviewDemo extends Activity {
   private SurfaceHolder previewHolder=null;
   private Camera camera=null;
   private boolean inPreview=false;
-  private boolean previewConfigured=false;
+  private boolean cameraConfigured=false;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,6 @@ public class PreviewDemo extends Activity {
     super.onResume();
     
     camera=Camera.open();
-    
     startPreview();
   }
     
@@ -99,7 +98,7 @@ public class PreviewDemo extends Activity {
           .show();
       }
 
-      if (!previewConfigured) {
+      if (!cameraConfigured) {
         Camera.Parameters parameters=camera.getParameters();
         Camera.Size size=getBestPreviewSize(width, height,
                                             parameters);
@@ -107,14 +106,14 @@ public class PreviewDemo extends Activity {
         if (size!=null) {
           parameters.setPreviewSize(size.width, size.height);
           camera.setParameters(parameters);
-          previewConfigured=true;
+          cameraConfigured=true;
         }
       }
     }
   }
   
   private void startPreview() {
-    if (previewConfigured && camera!=null) {
+    if (cameraConfigured && camera!=null) {
       camera.startPreview();
       inPreview=true;
     }
