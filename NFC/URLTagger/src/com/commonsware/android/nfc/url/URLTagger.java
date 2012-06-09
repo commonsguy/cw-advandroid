@@ -68,7 +68,7 @@ public class URLTagger extends Activity {
     if (inWriteMode &&
         NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
       Tag tag=intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-      byte[] url=buildUrlBytes();
+      byte[] url=buildUrlBytes(intent.getStringExtra(Intent.EXTRA_TEXT));
       NdefRecord record=new NdefRecord(NdefRecord.TNF_WELL_KNOWN,
                                         NdefRecord.RTD_URI,
                                         new byte[] {}, url);
@@ -105,29 +105,29 @@ public class URLTagger extends Activity {
     super.onPause();
   }
   
-  private byte[] buildUrlBytes() {
-    String raw=getIntent().getStringExtra(Intent.EXTRA_TEXT);
-    int prefix=0;
-    String subset=raw;
+  private byte[] buildUrlBytes(String url) {
+    byte prefixByte=0;
+    String subset=url;
+    int bestPrefixLength=0;
     
     for (int i=0;i<PREFIXES.length;i++) {
-      if (raw.startsWith(PREFIXES[i])) {
-        prefix=i+1;
-        subset=raw.substring(PREFIXES[i].length());
-        
-        break;
+      String prefix = PREFIXES[i];
+      if (url.startsWith(prefix) && prefix.length() > bestPrefixLength) {
+        prefixByte=(byte)(i+1);
+        bestPrefixLength=prefix.length();
+        subset=url.substring(bestPrefixLength);
       }
     }
     
-    byte[] subsetBytes=subset.getBytes();
-    byte[] result=new byte[subsetBytes.length+1];
+    final byte[] subsetBytes = subset.getBytes();
+    final byte[] result = new byte[subsetBytes.length+1];
     
-    result[0]=(byte)prefix;
+    result[0]=prefixByte;
     System.arraycopy(subsetBytes, 0, result, 1, subsetBytes.length);
     
     return(result);
   }
-  
+
   static class WriteTask extends AsyncTask<Void, Void, Void> {
     Activity host=null;
     NdefMessage msg=null;
