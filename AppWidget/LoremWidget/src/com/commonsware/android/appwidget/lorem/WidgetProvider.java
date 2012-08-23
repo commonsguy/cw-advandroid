@@ -24,6 +24,8 @@ import android.net.Uri;
 import android.widget.RemoteViews;
 
 public class WidgetProvider extends AppWidgetProvider {
+  public static String ACTION_WIDGET=
+    "com.commonsware.android.appwidget.lorem.WIDGET";
   public static String EXTRA_WORD=
     "com.commonsware.android.appwidget.lorem.WORD";
 
@@ -43,6 +45,7 @@ public class WidgetProvider extends AppWidgetProvider {
                               svcIntent);
 
       Intent clickIntent=new Intent(ctxt, LoremActivity.class);
+      clickIntent.setAction(ACTION_WIDGET + appWidgetIds[i]);
       clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
       PendingIntent clickPI=PendingIntent
                               .getActivity(ctxt, 0,
