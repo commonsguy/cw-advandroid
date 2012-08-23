@@ -34,12 +34,9 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
                                         "pellentesque", "augue",
                                         "purus"};
   private Context ctxt=null;
-  private int appWidgetId;
 
   public LoremViewsFactory(Context ctxt, Intent intent) {
       this.ctxt=ctxt;
-      appWidgetId=intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                                      AppWidgetManager.INVALID_APPWIDGET_ID);
   }
   
   @Override
