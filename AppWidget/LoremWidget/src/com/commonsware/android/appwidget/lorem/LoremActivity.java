@@ -16,6 +16,7 @@
 package com.commonsware.android.appwidget.lorem;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -28,6 +29,11 @@ public class LoremActivity extends Activity {
     
     if (word==null) {
       word="We did not get a word!";
+    }
+    
+    int id=getIntent().getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+    if (id!=AppWidgetManager.INVALID_APPWIDGET_ID) {
+      word+=" (widget " + id + ")";
     }
     
     Toast.makeText(this, word, Toast.LENGTH_LONG).show();

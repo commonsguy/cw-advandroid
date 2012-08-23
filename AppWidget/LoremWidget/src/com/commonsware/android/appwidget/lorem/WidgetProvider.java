@@ -43,6 +43,7 @@ public class WidgetProvider extends AppWidgetProvider {
                               svcIntent);
 
       Intent clickIntent=new Intent(ctxt, LoremActivity.class);
+      clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
       PendingIntent clickPI=PendingIntent
                               .getActivity(ctxt, 0,
                                             clickIntent,
