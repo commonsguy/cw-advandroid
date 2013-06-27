@@ -1,6 +1,10 @@
 Welcome to the source code for _The Busy Coder's Guide to
 Advanced Android Development_!
 
+**Note that this book has been retired, and so if you are looking for more up-to-date
+material, you probably want [The Busy Coder's Guide to Android Development](http://commonsware.com/Android)
+and [the cw-omnibus repo](http://github.com/commonsguy/cw-omnibus).**
+
 All of the source code in this archive is licensed under the
 Apache 2.0 license except as noted.
 
