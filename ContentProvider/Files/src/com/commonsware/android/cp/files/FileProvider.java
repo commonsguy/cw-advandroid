@@ -10,7 +10,7 @@
   
   From _The Busy Coder's Guide to Advanced Android Development_
     http://commonsware.com/AdvAndroid
-*/
+*
 
    
 package com.commonsware.android.cp.files;
